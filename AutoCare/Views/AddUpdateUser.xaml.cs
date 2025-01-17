@@ -66,15 +66,15 @@ namespace AutoCare.Views
                 Id = Id,
                 Name = Name,
                 Description = Description,
-                BuyingPrice = BuyingPrice,
-                SellingPrice = SellingPrice,
+                PurchasePrice = BuyingPrice,
+                RetailPrice = SellingPrice,
                 Markup = Markup,
                 StockQuantity = StockQuantity,
                 SoldQuantity = SoldQuantity,
                 Location = Location,
                 Tags = Tags,
                 Labels = Labels,
-                Date = Date
+                UpdatedOn = Date
             };
         }
 
