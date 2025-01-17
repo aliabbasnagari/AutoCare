@@ -11,6 +11,10 @@
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="Padding" Value="3"/>
         </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Padding" Value="3"/>
+        </Style>
     </UserControl.Resources>
 
     <StackPanel Width="300"  Margin="10"  HorizontalAlignment="Left" VerticalAlignment="Stretch">
@@ -47,7 +51,15 @@
         <TextBox Text="0" x:Name="SoldQuantityTextBox"  Margin="0,5" />
 
         <TextBlock Text="Location" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0, 5">
+
+            <ComboBox x:Name="cbLocationX" Width="50" Margin="0,0,5,0" SelectedIndex="0" />
+
+            <ComboBox x:Name="cbLocationY" Width="50" SelectedIndex="0"  />
+        </StackPanel>
+        <!-- 
         <TextBox x:Name="LocationTextBox"  Margin="0,5" />
+        -->
 
         <TextBlock Text="Labels" />
         <TextBox x:Name="LabelsTextBox"  Margin="0,5" />

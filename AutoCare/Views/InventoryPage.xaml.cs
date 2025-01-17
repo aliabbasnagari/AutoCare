@@ -48,12 +48,14 @@ namespace AutoCare.Views
 
         private async void LoadDataAsync()
         {
+            pbLoading.Visibility = Visibility.Visible;
             foreach (var item in TestData.LoadItemsFromCsv("C:\\Users\\Ali\\Downloads\\POS2.csv"))
             {
-                await Task.Delay(50);
+                await Task.Delay(5);
                 Items.Add(item);
                 FilteredItems.Add(item);
             }
+            pbLoading.Visibility = Visibility.Collapsed;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -111,18 +113,7 @@ namespace AutoCare.Views
 
         private async void SearchItemsAsync(string searchTerm)
         {
-            ProgressBar progressBar = new ProgressBar
-            {
-                IsIndeterminate = true, // Infinite spinning indicator
-                Width = 150,
-                Height=50,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, 0, 0, 0)
-            };
-            //Panel.SetZIndex(progressBar, 1);
-
-            gr.Children.Add(progressBar);
+            pbLoading.Visibility = Visibility.Visible;
 
             await Task.Delay(1000);
             // Run the search operation in a background task
@@ -131,7 +122,7 @@ namespace AutoCare.Views
             // Update the UI on the main thread once the search is complete
             LoadFiltered(filteredItems);
 
-            gr.Children.Remove(progressBar);
+            pbLoading.Visibility = Visibility.Collapsed;
         }
 
 

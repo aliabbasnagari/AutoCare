@@ -43,7 +43,7 @@
         <Grid Grid.Row="1" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
             <!--
             <TextBox x:Name="tbSearch" FontSize="14" Margin="0,0,10,0" VerticalContentAlignment="Center" Grid.Column="0" Padding="3" />
@@ -64,12 +64,10 @@
                 </TextBlock>
             </Grid>
 
-            <Button Width="40" Height="30" VerticalAlignment="Center"  Grid.Column="1" Click="Button_Click_1">
-                <Image Width="20" Height="20" Source="/Assets/img.png" />
-            </Button>
+            <Button Content="Search" Height="30" VerticalAlignment="Center"  Grid.Column="1" Click="Button_Click_1" />
         </Grid>
 
-        <Grid x:Name="gr" Grid.Row="2">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
@@ -109,23 +107,23 @@
                                         </StackPanel>
 
                                         <StackPanel Orientation="Vertical" Margin="10 0 0 0" Grid.Column="1">
-                                            <TextBlock Text="Buying Price" FontWeight="Bold" />
-                                            <TextBlock Text="{Binding BuyingPrice, StringFormat='₨{0:N2}'}"/>
+                                            <TextBlock Text="Purchase Price" FontWeight="Bold" />
+                                            <TextBlock Text="{Binding PurchasePrice, StringFormat='₨{0:N2}'}"/>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Vertical" Margin="10 0 0 0" Grid.Column="2">
-                                            <TextBlock Text="Selling Price" FontWeight="Bold" />
-                                            <TextBlock Text="{Binding SellingPrice, StringFormat='₨{0:N2}'}"/>
+                                            <TextBlock Text="Retail Price" FontWeight="Bold" />
+                                            <TextBlock Text="{Binding RetailPrice, StringFormat='₨{0:N2}'}"/>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Vertical" Margin="10 0 0 0" Grid.Column="3">
-                                            <TextBlock Text="Stock Quantity" FontWeight="Bold" Margin="0,0,10,0"/>
+                                            <TextBlock Text="Stock" FontWeight="Bold" Margin="0,0,10,0"/>
                                             <TextBlock Text="{Binding StockQuantity}"/>
                                         </StackPanel>
 
 
                                         <StackPanel Orientation="Vertical" Margin="10 0 0 0" Grid.Column="4">
-                                            <TextBlock Text="Sold Quantity" FontWeight="Bold" Margin="0,0,10,0"/>
+                                            <TextBlock Text="Sold" FontWeight="Bold" Margin="0,0,10,0"/>
                                             <TextBlock Text="{Binding SoldQuantity}"/>
                                         </StackPanel>
                                     </Grid>
@@ -135,6 +133,14 @@
                     </ListView>
                 </TabItem>
             </TabControl>
+
+            <ProgressBar x:Name="pbLoading"
+                         IsIndeterminate="True"
+                         Width="150"
+                         Height="20"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Visibility="Collapsed" />
         </Grid>
     </Grid>
 </Page>

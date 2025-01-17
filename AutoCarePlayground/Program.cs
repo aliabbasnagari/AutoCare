@@ -73,10 +73,7 @@ class Program
 
 
         Console.WriteLine();
-
-        
-        var s4 = new ItemSearcher();
-        results.Add(s4.SearchItems(Items.ToList(), searchText));
+        results.Add(ItemSearcher.SearchItems(Items.ToList(), searchText));
         names.Add("ItemSearcher");
 
         

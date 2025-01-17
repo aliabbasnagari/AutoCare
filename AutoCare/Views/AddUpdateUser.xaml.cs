@@ -38,7 +38,7 @@ namespace AutoCare.Views
         public double Markup => BuyingPrice == 0 ? SellingPrice : (SellingPrice - BuyingPrice) / BuyingPrice * 100;
         public int StockQuantity => int.TryParse(StockQuantityTextBox.Text, out var result) ? result : 0;
         public int SoldQuantity => int.TryParse(SoldQuantityTextBox.Text, out var result) ? result : 0;
-        public string Location => LocationTextBox.Text;
+        public string Location => cbLocationX.SelectedItem.ToString() + cbLocationY.SelectedItem.ToString() ?? "#9";
         public DateTime Date => DatePicker.SelectedDate.GetValueOrDefault();
 
         public static readonly RoutedEvent AddUserClickEvent = EventManager.RegisterRoutedEvent(
@@ -57,6 +57,8 @@ namespace AutoCare.Views
         {
             InitializeComponent();
             DatePicker.SelectedDate = DateTime.Now;
+            cbLocationX.ItemsSource = "# A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".Split(' ');
+            cbLocationY.ItemsSource = "1 2 3 4 5".Split(' ');
         }
 
         public Item GetItem()
