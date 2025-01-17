@@ -19,7 +19,7 @@ namespace AutoCare.Models
         public int StockQuantity { get; set; }
         public int SoldQuantity { get; set; }
         public string? Location { get; set; }
-        public double Markup => (RetailPrice - PurchasePrice) / (PurchasePrice * 100);
+        public double Markup => (RetailPrice - PurchasePrice) / PurchasePrice * 100;
 
         public override string ToString()
         {

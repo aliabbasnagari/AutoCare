@@ -26,16 +26,16 @@ namespace AutoCare.Data
         {
             var items = new List<Item>
 {
-    new Item { Id = 1, Name = "Laptop", Description = "High-performance laptop", Labels = "Electronics", Tags = "Portable,Work", PurchasePrice = 800.00, RetailPrice = 1000.00, Markup = 25.0, UpdatedOn = DateTime.Now, StockQuantity = 50, SoldQuantity = 10, Location = "A1" },
-    new Item { Id = 2, Name = "Smartphone", Description = "Latest model smartphone", Labels = "Electronics", Tags = "Mobile,Smart", PurchasePrice = 500.00, RetailPrice = 650.00, Markup = 30.0, UpdatedOn = DateTime.Now, StockQuantity = 100, SoldQuantity = 25, Location = "B2" },
-    new Item { Id = 3, Name = "Headphones", Description = "Noise-cancelling headphones", Labels = "Accessories", Tags = "Audio,Music", PurchasePrice = 150.00, RetailPrice = 220.00, Markup = 46.7, UpdatedOn = DateTime.Now, StockQuantity = 75, SoldQuantity = 30, Location = "C3" },
-    new Item { Id = 4, Name = "Office Chair", Description = "Ergonomic office chair", Labels = "Furniture", Tags = "Comfort,Work", PurchasePrice = 120.00, RetailPrice = 180.00, Markup = 50.0, UpdatedOn = DateTime.Now, StockQuantity = 40, SoldQuantity = 15, Location = "D4" },
-    new Item { Id = 5, Name = "Desk Lamp", Description = "Adjustable desk lamp", Labels = "Lighting", Tags = "LED,Study", PurchasePrice = 30.00, RetailPrice = 45.00, Markup = 50.0, UpdatedOn = DateTime.Now, StockQuantity = 60, SoldQuantity = 20, Location = "E5" },
-    new Item { Id = 6, Name = "Backpack", Description = "Waterproof travel backpack", Labels = "Bags", Tags = "Travel,Outdoor", PurchasePrice = 40.00, RetailPrice = 65.00, Markup = 62.5, UpdatedOn = DateTime.Now, StockQuantity = 90, SoldQuantity = 35, Location = "F6" },
-    new Item { Id = 7, Name = "Tablet", Description = "10-inch Android tablet", Labels = "Electronics", Tags = "Portable,Media", PurchasePrice = 200.00, RetailPrice = 280.00, Markup = 40.0, UpdatedOn = DateTime.Now, StockQuantity = 70, SoldQuantity = 18, Location = "G7" },
-    new Item { Id = 8, Name = "Wireless Mouse", Description = "Rechargeable wireless mouse", Labels = "Accessories", Tags = "Computer,Gadget", PurchasePrice = 20.00, RetailPrice = 35.00, Markup = 75.0, UpdatedOn = DateTime.Now, StockQuantity = 120, SoldQuantity = 50, Location = "H8" },
-    new Item { Id = 9, Name = "Water Bottle", Description = "Insulated stainless steel bottle", Labels = "Kitchenware", Tags = "Hydration,Outdoor", PurchasePrice = 15.00, RetailPrice = 25.00, Markup = 66.7, UpdatedOn = DateTime.Now, StockQuantity = 150, SoldQuantity = 60, Location = "I9" },
-    new Item { Id = 10, Name = "Gaming Keyboard", Description = "RGB mechanical keyboard", Labels = "Electronics", Tags = "Gaming,PC", PurchasePrice = 70.00, RetailPrice = 110.00, Markup = 57.1, UpdatedOn = DateTime.Now, StockQuantity = 45, SoldQuantity = 12, Location = "J10" }
+    new Item { Id = 1, Name = "Laptop", Description = "High-performance laptop", Labels = "Electronics", Tags = "Portable,Work", PurchasePrice = 800.00, RetailPrice = 1000.00, UpdatedOn = DateTime.Now, StockQuantity = 50, SoldQuantity = 10, Location = "A1" },
+    new Item { Id = 2, Name = "Smartphone", Description = "Latest model smartphone", Labels = "Electronics", Tags = "Mobile,Smart", PurchasePrice = 500.00, RetailPrice = 650.00, UpdatedOn = DateTime.Now, StockQuantity = 100, SoldQuantity = 25, Location = "B2" },
+    new Item { Id = 3, Name = "Headphones", Description = "Noise-cancelling headphones", Labels = "Accessories", Tags = "Audio,Music", PurchasePrice = 150.00, RetailPrice = 220.00, UpdatedOn = DateTime.Now, StockQuantity = 75, SoldQuantity = 30, Location = "C3" },
+    new Item { Id = 4, Name = "Office Chair", Description = "Ergonomic office chair", Labels = "Furniture", Tags = "Comfort,Work", PurchasePrice = 120.00, RetailPrice = 180.00, UpdatedOn = DateTime.Now, StockQuantity = 40, SoldQuantity = 15, Location = "D4" },
+    new Item { Id = 5, Name = "Desk Lamp", Description = "Adjustable desk lamp", Labels = "Lighting", Tags = "LED,Study", PurchasePrice = 30.00, RetailPrice = 45.00, UpdatedOn = DateTime.Now, StockQuantity = 60, SoldQuantity = 20, Location = "E5" },
+    new Item { Id = 6, Name = "Backpack", Description = "Waterproof travel backpack", Labels = "Bags", Tags = "Travel,Outdoor", PurchasePrice = 40.00, RetailPrice = 65.00, UpdatedOn = DateTime.Now, StockQuantity = 90, SoldQuantity = 35, Location = "F6" },
+    new Item { Id = 7, Name = "Tablet", Description = "10-inch Android tablet", Labels = "Electronics", Tags = "Portable,Media", PurchasePrice = 200.00, RetailPrice = 280.00,  UpdatedOn = DateTime.Now, StockQuantity = 70, SoldQuantity = 18, Location = "G7" },
+    new Item { Id = 8, Name = "Wireless Mouse", Description = "Rechargeable wireless mouse", Labels = "Accessories", Tags = "Computer,Gadget", PurchasePrice = 20.00, RetailPrice = 35.00,  UpdatedOn = DateTime.Now, StockQuantity = 120, SoldQuantity = 50, Location = "H8" },
+    new Item { Id = 9, Name = "Water Bottle", Description = "Insulated stainless steel bottle", Labels = "Kitchenware", Tags = "Hydration,Outdoor", PurchasePrice = 15.00, RetailPrice = 25.00,  UpdatedOn = DateTime.Now, StockQuantity = 150, SoldQuantity = 60, Location = "I9" },
+    new Item { Id = 10, Name = "Gaming Keyboard", Description = "RGB mechanical keyboard", Labels = "Electronics", Tags = "Gaming,PC", PurchasePrice = 70.00, RetailPrice = 110.00,  UpdatedOn = DateTime.Now, StockQuantity = 45, SoldQuantity = 12, Location = "J10" }
 };
             return items;
         }
@@ -52,7 +52,6 @@ namespace AutoCare.Data
                     Tags = "Tag1, Tag2",
                     PurchasePrice = 100,
                     RetailPrice = 150,
-                    Markup = 50,
                     UpdatedOn = DateTime.Now,
                     StockQuantity = 100,
                     SoldQuantity = 50,
@@ -67,7 +66,6 @@ namespace AutoCare.Data
                     Tags = "Tag3, Tag4",
                     PurchasePrice = 120,
                     RetailPrice = 180,
-                    Markup = 50,
                     UpdatedOn = DateTime.Now,
                     StockQuantity = 200,
                     SoldQuantity = 30,
@@ -82,7 +80,6 @@ namespace AutoCare.Data
                     Tags = "Tag5, Tag6",
                     PurchasePrice = 90,
                     RetailPrice = 135,
-                    Markup = 50,
                     UpdatedOn = DateTime.Now,
                     StockQuantity = 150,
                     SoldQuantity = 70,
@@ -97,7 +94,6 @@ namespace AutoCare.Data
                     Tags = "Tag5, Tag6",
                     PurchasePrice = 90,
                     RetailPrice = 135,
-                    Markup = 50,
                     UpdatedOn = DateTime.Now,
                     StockQuantity = 150,
                     SoldQuantity = 70,

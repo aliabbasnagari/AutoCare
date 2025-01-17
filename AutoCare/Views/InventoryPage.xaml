@@ -10,7 +10,7 @@
       Background="MintCream">
 
     <Page.Resources>
-
+        <BooleanToVisibilityConverter x:Key="bvc" />
         <Style x:Key="popupStyle" TargetType="{x:Type ColumnDefinition}">
             <Style.Triggers>
                 <Trigger Property="{Binding ShowSide}" Value="true">
@@ -45,8 +45,25 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
-
+            <!--
             <TextBox x:Name="tbSearch" FontSize="14" Margin="0,0,10,0" VerticalContentAlignment="Center" Grid.Column="0" Padding="3" />
+            -->
+            <Grid Grid.Column="0">
+                <TextBox x:Name="tbSearch" FontSize="14" Margin="0,0,10,0" VerticalContentAlignment="Center"  Padding="3" />
+                <TextBlock IsHitTestVisible="False" FontSize="14" Text="Search..." VerticalAlignment="Center" HorizontalAlignment="Left" Margin="6,0,0,0" Foreground="DarkGray">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=tbSearch}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
             <Button Width="40" Height="30" VerticalAlignment="Center"  Grid.Column="1" Click="Button_Click_1">
                 <Image Width="20" Height="20" Source="/Assets/img.png" />
             </Button>

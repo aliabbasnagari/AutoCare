@@ -35,7 +35,7 @@ namespace AutoCare.Views
         public string Tags => TagsTextBox.Text;
         public double BuyingPrice => Double.TryParse(BuyingPriceTextBox.Text, out var val) ? val : 0;
         public double SellingPrice => Double.TryParse(SellingPriceTextBox.Text, out var val) ? val : 0;
-        public double Markup => Double.TryParse(MarkupText.Text, out var val) ? val : 0;
+        public double Markup => BuyingPrice == 0 ? SellingPrice : (SellingPrice - BuyingPrice) / BuyingPrice * 100;
         public int StockQuantity => int.TryParse(StockQuantityTextBox.Text, out var result) ? result : 0;
         public int SoldQuantity => int.TryParse(SoldQuantityTextBox.Text, out var result) ? result : 0;
         public string Location => LocationTextBox.Text;
@@ -68,7 +68,6 @@ namespace AutoCare.Views
                 Description = Description,
                 PurchasePrice = BuyingPrice,
                 RetailPrice = SellingPrice,
-                Markup = Markup,
                 StockQuantity = StockQuantity,
                 SoldQuantity = SoldQuantity,
                 Location = Location,
@@ -86,11 +85,7 @@ namespace AutoCare.Views
         // Buying Price TextBox TextChanged handler
         private void BuyingSellingPriceTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (decimal.TryParse(BuyingPriceTextBox.Text, out decimal buyingPrice) &&
-                decimal.TryParse(SellingPriceTextBox.Text, out decimal markup))
-            {
-                MarkupText.Text = $"{(SellingPrice - BuyingPrice) / BuyingPrice * 100:F3}";
-            }
+            MarkupText.Text = $"{Markup:F3}";
         }
     }
 }

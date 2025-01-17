@@ -48,9 +48,9 @@ namespace AutoCare.Views
 
         private async void LoadDataAsync()
         {
-            foreach (var item in TestData.LoadItemsFromCsv("C:/Users/Ali/Downloads/POS.csv"))
+            foreach (var item in TestData.LoadItemsFromCsv("C:\\Users\\Ali\\Downloads\\POS2.csv"))
             {
-                await Task.Delay(10);
+                await Task.Delay(50);
                 Items.Add(item);
                 FilteredItems.Add(item);
             }
@@ -123,7 +123,8 @@ namespace AutoCare.Views
             //Panel.SetZIndex(progressBar, 1);
 
             gr.Children.Add(progressBar);
-            //await Task.Delay(5000);
+
+            await Task.Delay(1000);
             // Run the search operation in a background task
             var filteredItems = await Task.Run(() => ItemSearcher.SearchItems(Items.ToList(), searchTerm));
 
