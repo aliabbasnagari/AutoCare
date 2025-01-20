@@ -10,6 +10,12 @@
 
   <ItemGroup>
     <None Remove="Assets\app_icon.png" />
+    <None Remove="Assets\Fonts\fa-brands-400.ttf" />
+    <None Remove="Assets\Fonts\fa-duotone-900.ttf" />
+    <None Remove="Assets\Fonts\fa-light-300.ttf" />
+    <None Remove="Assets\Fonts\fa-regular-400.ttf" />
+    <None Remove="Assets\Fonts\fa-solid-900.ttf" />
+    <None Remove="Assets\Fonts\fa_pro_solid_900.otf" />
     <None Remove="Assets\img.png" />
   </ItemGroup>
 
@@ -26,6 +32,11 @@
 
   <ItemGroup>
     <Resource Include="Assets\app_icon.png" />
+    <Resource Include="Assets\Fonts\fa-brands-400.ttf" />
+    <Resource Include="Assets\Fonts\fa-duotone-900.ttf" />
+    <Resource Include="Assets\Fonts\fa-light-300.ttf" />
+    <Resource Include="Assets\Fonts\fa-regular-400.ttf" />
+    <Resource Include="Assets\Fonts\fa-solid-900.ttf" />
     <Resource Include="Assets\img.png" />
   </ItemGroup>
 

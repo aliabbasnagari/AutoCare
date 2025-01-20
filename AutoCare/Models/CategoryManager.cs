@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,81 +17,77 @@ namespace AutoCare.Models
             Categories = new ObservableCollection<Category>();
         }
 
-        // Add a top-level category
-        public void AddCategory(string name)
+        public Category? AddCategory(string name, Category? parent = null)
         {
-            var category = new Category(name);
-            Categories.Add(category);
+            if (CategoryExists(name, parent)) return null;
+            var newCategory = new Category(name, parent);
+            if (parent != null)
+                parent.Subcategories.Add(newCategory);
+            else
+                Categories.Add(newCategory);
+            return newCategory;
         }
 
-        // Add a subcategory to an existing category
-        public bool AddSubCategory(string parentCategoryName, string subCategoryName)
+        public void RemoveCategory(Category category, bool deleteSubcategories = true)
         {
-            var parentCategory = FindCategoryByName(parentCategoryName);
-            if (parentCategory != null)
-            {
-                var subCategory = new Category(subCategoryName, parentCategoryName);
-                parentCategory.Subcategories.Add(subCategory);
-                return true;
-            }
-            return false;
-        }
+            if (category == null)
+                throw new ArgumentNullException(nameof(category));
 
-        // Remove a category and its subcategories by name
-        public bool RemoveCategory(string categoryName)
-        {
-            var categoryToRemove = FindCategoryByName(categoryName);
-            if (categoryToRemove != null)
+            if (category.Parent == null)
             {
-                // Remove from parent if it's a subcategory
-                if (!string.IsNullOrEmpty(categoryToRemove.ParentName))
+                Categories.Remove(category);
+                if (deleteSubcategories)
                 {
-                    var parentCategory = FindCategoryByName(categoryToRemove.ParentName);
-                    parentCategory?.Subcategories.Remove(categoryToRemove);
+                    foreach (var subcategory in category.Subcategories.ToList())
+                    {
+                        RemoveCategory(subcategory, true);
+                    }
+                    category.Subcategories.Clear();
                 }
                 else
                 {
-                    // If it is a top-level category, remove it from the Categories collection
-                    Categories.Remove(categoryToRemove);
+                    foreach (var subcategory in category.Subcategories.ToList())
+                    {
+                        subcategory.Parent = null;
+                        if (!CategoryExists(subcategory.Name, Categories)) Categories.Add(subcategory);
+                    }
                 }
-                return true;
             }
-            return false;
-        }
-
-        // Find a category by its name (including subcategories)
-        public Category? FindCategoryByName(string categoryName)
-        {
-            return FindCategoryInList(Categories, categoryName);
-        }
-
-        // Recursive search for category in the list (including subcategories)
-        private Category? FindCategoryInList(ObservableCollection<Category> categoryList, string categoryName)
-        {
-            foreach (var category in categoryList)
+            else
             {
-                if (category.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase))
-                    return category;
+                Category parent = category.Parent;
+                if (!deleteSubcategories)
+                {
+                    foreach (var subcategory in category.Subcategories.ToList())
+                    {
+                        subcategory.Parent = parent;
+                        parent.Subcategories.Add(subcategory);
+                    }
+                }
 
-                // Recursively search in subcategories
-                var foundSubCategory = FindCategoryInList(category.Subcategories, categoryName);
-                if (foundSubCategory != null)
-                    return foundSubCategory;
+                parent.Subcategories.Remove(category);
+                if (deleteSubcategories)
+                {
+                    foreach (var subcategory in category.Subcategories.ToList())
+                    {
+                        RemoveCategory(subcategory, true);
+                    }
+                    category.Subcategories.Clear();
+                }
+                category.Parent = null;
+                category.Subcategories.Clear();
             }
-            return null;
         }
 
-        // Get all subcategories for a given category by name
-        public ObservableCollection<Category> GetSubCategories(string categoryName)
+        public bool CategoryExists(string categoryName, IEnumerable<Category> categories)
         {
-            var parentCategory = FindCategoryByName(categoryName);
-            return parentCategory?.Subcategories ?? new ObservableCollection<Category>();
+            return categories.Any(c => c.Name == categoryName);
         }
 
-        // Check if a category exists
-        public bool CategoryExists(string categoryName)
+        public bool CategoryExists(string categoryName, Category? parent)
         {
-            return FindCategoryByName(categoryName) != null;
+            if (parent == null) return Categories.Any(c => c.Name == categoryName);
+            return parent.Subcategories.Any(c => c.Name == categoryName);
         }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using AutoCare.Views;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace AutoCare
 {
@@ -11,8 +14,15 @@ namespace AutoCare
         public MainWindow()
         {
             InitializeComponent();
-            rootFrame.Navigate(new ManageCategoriesPage());
-            //rootFrame.Navigate(new InventoryPage());
+            rootFrame.Navigate(new Uri($"Views/HomePage.xaml", UriKind.Relative));
+        }
+
+        private void NavigateToPage(object sender, RoutedEventArgs e)
+        {
+            if (sender is ButtonBase button && button.Tag != null)
+            {
+                rootFrame.Navigate(new Uri($"Views/{button.Tag}.xaml", UriKind.Relative));
+            }
         }
     }
 }

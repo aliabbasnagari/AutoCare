@@ -5,13 +5,12 @@ using FuzzySharp;
 using FuzzySharp.PreProcess;
 using FuzzyString;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 class Program
 {
-    // The Main method is the entry point of the application
-    static void Main(string[] args)
+    static void Test1()
     {
-
         ObservableCollection<Item> Items = new ObservableCollection<Item>(TestData.GetItems());
         List<List<Item>> results = new List<List<Item>>();
         List<string> names = new List<string>();
@@ -42,8 +41,8 @@ class Program
 
         foreach (var t in targets)
         {
-            Console.WriteLine( );
-           // Console.WriteLine("LevenshteinDistance: " + source.LevenshteinDistance(t));
+            Console.WriteLine();
+            // Console.WriteLine("LevenshteinDistance: " + source.LevenshteinDistance(t));
             //Console.WriteLine("NormalizedLevenshteinDistance: " + source.NormalizedLevenshteinDistance(t));
             //Console.WriteLine("JaroDistance: " + source.JaroDistance(t));
             //Console.WriteLine("JaroWinklerDistance: " + source.JaroWinklerDistance(t));
@@ -76,7 +75,7 @@ class Program
         results.Add(ItemSearcher.SearchItems(Items.ToList(), searchText));
         names.Add("ItemSearcher");
 
-        
+
         var s6 = new LSearch();
         s6.AddItems(Items);
         results.Add(s6.SearchItems(searchText));
@@ -100,5 +99,64 @@ class Program
             }
             Console.WriteLine("-----------------------------------------------------------------------");
         }
+    }
+    // The Main method is the entry point of the application
+    static void Main(string[] args)
+    {
+        long avg = 0;
+        for (int j = 0; j < 10; j++)
+        {
+            CategoryManager cm = new CategoryManager();
+            Category? cati = null;
+            Category? cat = null;
+            for (int i = 0; i < 1000; i++)
+            {
+                cat = cm.AddCategory($"Categories {i}", cat);
+                if (i == 2)
+                {
+                    cati = cat;
+                }
+            }
+
+
+            long beforeMemory = GC.GetTotalMemory(true);
+            cm.RemoveCategory(cati, true);
+            long afterMemory = GC.GetTotalMemory(true);
+
+            Console.Write($"B: {beforeMemory} b");
+            Console.Write($", A: {afterMemory} b");
+            Console.WriteLine($", F: {(beforeMemory - afterMemory)} b");
+            avg += (beforeMemory - afterMemory);
+        }
+        avg /= 10;
+        Console.WriteLine($"AVG Free: {avg} b - {avg/ 1024} Kb");
+
+        avg = 0;
+        for (int j = 0; j < 10; j++)
+        {
+            CategoryManager cm = new CategoryManager();
+            Category? cati = null;
+            Category? cat = null;
+            for (int i = 0; i < 1000; i++)
+            {
+                cat = cm.AddCategory($"Categories {i}", cat);
+                if (i == 2)
+                {
+                    cati = cat;
+                }
+            }
+
+
+            long beforeMemory = GC.GetTotalMemory(true);
+            cm.RemoveCategory(cati, false);
+            long afterMemory = GC.GetTotalMemory(true);
+
+            Console.Write($"B: {beforeMemory} b");
+            Console.Write($", A: {afterMemory} b");
+            Console.WriteLine($", F: {(beforeMemory - afterMemory)} b");
+            avg += (beforeMemory - afterMemory);
+        }
+        avg /= 10;
+        Console.WriteLine($"AVG Free: {avg} b - {avg / 1024} Kb");
     }
 }

@@ -10,15 +10,20 @@ namespace AutoCare.Models
     public class Category
     {
         public string Name { get; set; }
-        public string? ParentName { get; set; }
+        public Category? Parent { get; set; }
 
         public ObservableCollection<Category> Subcategories { get; set; }
 
-        public Category(string name, string? parentName = null)
+        public Category(string name, Category? parent = null)
         {
             Name = name;
-            ParentName = parentName;
+            Parent = parent;
             Subcategories = new ObservableCollection<Category>();
+        }
+
+        public string GetLink()
+        {
+            return (Parent != null) ? Parent.GetLink() + ">" + Name : Name;
         }
     }
 

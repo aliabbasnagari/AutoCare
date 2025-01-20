@@ -22,27 +22,50 @@
 
         <StackPanel Grid.Column="0"
                     Background="LightGray">
+
+
+            <Image Source="/Assets/app_icon.png"
+                   Height="60"
+                   HorizontalAlignment="Left"
+                   Margin="20" />
+
             <RadioButton Content="Home"
+                         IsChecked="True"
+                         Height="60"
                          FontSize="18"
                          FontWeight="Bold"
-                         Margin="5"
-                         Style="{StaticResource MenuButtonTheme }" />
+                         Style="{StaticResource MenuButtonTheme }"
+                         Tag="HomePage"
+                         Click="NavigateToPage" />
 
             <RadioButton Content="Inventory"
+                         Height="60"
                          FontSize="18"
                          FontWeight="Bold"
-                         Margin="5"
-                         Style="{StaticResource MenuButtonTheme }" />
+                         Style="{StaticResource MenuButtonTheme }"
+                         Tag="InventoryPage"
+                         Click="NavigateToPage" />
 
             <RadioButton Content="Sales"
+                         Height="60"
                          FontSize="18"
                          FontWeight="Bold"
-                         Margin="5"
-                         Style="{StaticResource MenuButtonTheme }" />
+                         Style="{StaticResource MenuButtonTheme }"
+                         Tag="SalesPage"
+                         Click="NavigateToPage" />
+
+            <RadioButton Content="Categories"
+                         Height="60"
+                         FontSize="18"
+                         FontWeight="Bold"
+                         Style="{StaticResource MenuButtonTheme }"
+                         Tag="CategoriesPage"
+                         Click="NavigateToPage" />
         </StackPanel>
 
         <Frame x:Name="rootFrame"
-               Grid.Column="1" />
+               Grid.Column="1"
+               NavigationUIVisibility="Hidden" />
 
     </Grid>
 </Window>
