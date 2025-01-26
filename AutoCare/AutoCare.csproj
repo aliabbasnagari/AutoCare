@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -17,6 +17,7 @@
     <None Remove="Assets\Fonts\fa-solid-900.ttf" />
     <None Remove="Assets\Fonts\fa_pro_solid_900.otf" />
     <None Remove="Assets\img.png" />
+    <None Remove="Assets\POS.csv" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,9 @@
     <Resource Include="Assets\Fonts\fa-regular-400.ttf" />
     <Resource Include="Assets\Fonts\fa-solid-900.ttf" />
     <Resource Include="Assets\img.png" />
+    <Resource Include="Assets\POS.csv">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

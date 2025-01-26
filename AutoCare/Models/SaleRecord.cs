@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,8 @@ namespace AutoCare.Models
     {
         public int Id { get; set; }
         public string Customer { get; set; }
-        public List<SaleItem> Items { get; set; }
+        // public List<SaleItem> Items { get; set; }
+        public ObservableCollection<SaleItem> Items { get; set; } = new ObservableCollection<SaleItem>();
         public DateTime Date { get; set; }
         public decimal SubTotal { get; set; }
         public decimal Total { get; set; }

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -28,30 +29,14 @@ namespace AutoCare.Views
             Items = new ObservableCollection<Item>();
             FilteredItems = new ObservableCollection<Item>();
             this.DataContext = this;
-            LoadDataAsync();
-
-            string s1 = "Long search term";
-
-            Debug.WriteLine(s1.Levenshtein("log search tm"));
-            Debug.WriteLine(s1.LCS("log search tm"));
-
-
-            Debug.WriteLine(s1.Levenshtein("Long search term"));
-            Debug.WriteLine(s1.LCS("Long search term"));
-
-
-            Debug.WriteLine(s1.Levenshtein("search term"));
-            Debug.WriteLine(s1.LCS("search Term"));
-
-
+            LoadData();
         }
 
-        private async void LoadDataAsync()
+        private void LoadData()
         {
             pbLoading.Visibility = Visibility.Visible;
-            foreach (var item in TestData.LoadItemsFromCsv("C:\\Users\\Ali\\Downloads\\POS2.csv"))
+            foreach (var item in TestData.LoadItemsFromCsvResource("POS.csv"))
             {
-                await Task.Delay(5);
                 Items.Add(item);
                 FilteredItems.Add(item);
             }

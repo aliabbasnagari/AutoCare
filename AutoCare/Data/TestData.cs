@@ -6,13 +6,26 @@ using System.Formats.Asn1;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AutoCare.Data
 {
     public class TestData
     {
+     
+        public static List<Item> LoadItemsFromCsvResource(string resource)
+        {
+            string resourcePath = $"AutoCare;component/Assets/{resource}";
+            var uri = new System.Uri(resourcePath, System.UriKind.Relative);
+            var streamInfo = Application.GetResourceStream(uri);
+            using var reader = new StreamReader(streamInfo.Stream);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            return new List<Item>(csv.GetRecords<Item>());
+        }
+
         public static List<Item> LoadItemsFromCsv(string filePath)
         {
             var items = new List<Item>();

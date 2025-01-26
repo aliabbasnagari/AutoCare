@@ -7,20 +7,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCare", "AutoCare\AutoCa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCarePlayground", "AutoCarePlayground\AutoCarePlayground.csproj", "{9BD58AA7-1BD4-43E2-B5DC-C4D8B49F1375}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AutoCareSetup", "AutoCareSetup\AutoCareSetup.vdproj", "{09EB0DB6-CA95-4D4F-8E83-748039BB815C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C31399E0-3A5F-4C64-A99D-6792FE2365F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C31399E0-3A5F-4C64-A99D-6792FE2365F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C31399E0-3A5F-4C64-A99D-6792FE2365F7}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{C31399E0-3A5F-4C64-A99D-6792FE2365F7}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{C31399E0-3A5F-4C64-A99D-6792FE2365F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C31399E0-3A5F-4C64-A99D-6792FE2365F7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9BD58AA7-1BD4-43E2-B5DC-C4D8B49F1375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BD58AA7-1BD4-43E2-B5DC-C4D8B49F1375}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BD58AA7-1BD4-43E2-B5DC-C4D8B49F1375}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BD58AA7-1BD4-43E2-B5DC-C4D8B49F1375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09EB0DB6-CA95-4D4F-8E83-748039BB815C}.Debug|Any CPU.ActiveCfg = Debug
+		{09EB0DB6-CA95-4D4F-8E83-748039BB815C}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

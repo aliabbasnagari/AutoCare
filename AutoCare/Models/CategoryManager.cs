@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace AutoCare.Models
 {
@@ -19,12 +13,10 @@ namespace AutoCare.Models
 
         public Category? AddCategory(string name, Category? parent = null)
         {
-            if (CategoryExists(name, parent)) return null;
+            var group = parent?.Subcategories ?? Categories;
+            if (CategoryExists(name, group)) return null;
             var newCategory = new Category(name, parent);
-            if (parent != null)
-                parent.Subcategories.Add(newCategory);
-            else
-                Categories.Add(newCategory);
+            group.Add(newCategory);
             return newCategory;
         }
 
@@ -82,12 +74,6 @@ namespace AutoCare.Models
         public bool CategoryExists(string categoryName, IEnumerable<Category> categories)
         {
             return categories.Any(c => c.Name == categoryName);
-        }
-
-        public bool CategoryExists(string categoryName, Category? parent)
-        {
-            if (parent == null) return Categories.Any(c => c.Name == categoryName);
-            return parent.Subcategories.Any(c => c.Name == categoryName);
         }
     }
 }

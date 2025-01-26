@@ -14,7 +14,7 @@ namespace AutoCare
         public MainWindow()
         {
             InitializeComponent();
-            rootFrame.Navigate(new Uri($"Views/HomePage.xaml", UriKind.Relative));
+            rootFrame.Navigate(new Uri($"Views/SalesPage.xaml", UriKind.Relative));
         }
 
         private void NavigateToPage(object sender, RoutedEventArgs e)
