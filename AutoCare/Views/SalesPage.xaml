@@ -10,6 +10,8 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
+
+
     <Grid>
         <TabControl Grid.Column="0">
             <TabItem Header="New Sale">
@@ -89,9 +91,9 @@
 
                         <Grid Grid.Column="0">
                             <DataGrid
-                                x:Name="dgCart"
                                 AutoGenerateColumns="False"
-                                CanUserAddRows="False">
+                                CanUserAddRows="False"
+                                ItemsSource="{Binding Items}">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn
                                         Binding="{Binding ItemId}"
@@ -133,10 +135,10 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="Subtotal" />
-                                    <TextBlock Grid.Row="1" Text="Discount" />
-                                    <TextBlock Grid.Row="2" Text="Tax" />
-                                    <TextBlock Grid.Row="3" Text="Total" />
+                                    <TextBlock Grid.Row="0" Text="{Binding SubTotal, StringFormat='Subtotal: {0:C2}'}" />
+                                    <TextBox Grid.Row="2" Text="{Binding Discount}" />
+                                    <TextBox Grid.Row="1" Text="{Binding Tax}" />
+                                    <TextBlock Grid.Row="3" Text="{Binding Total, StringFormat='Total: {0:C2}'}" />
                                 </Grid>
                                 <StackPanel Grid.Row="2" Background="AntiqueWhite" />
                             </Grid>

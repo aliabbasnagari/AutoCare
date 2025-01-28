@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoCare.MVVM;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,40 +9,29 @@ using System.Threading.Tasks;
 
 namespace AutoCare.Models
 {
-    public class SaleItem : INotifyPropertyChanged
+    public class SaleItem : ViewModelBase
     {
+
         public int Id { get; set; }
         public int ItemId { get; set; }
+        public double Price { get; set; }
 
         private int quantity;
         public int Quantity
         {
-            get
-            {
-                return quantity;
-            }
+            get => quantity;
             set
             {
-                quantity = value;
-                OnPropertyChanged(nameof(TotalPrice));
-                OnPropertyChanged(nameof(Quantity));
+                if (quantity != value)
+                {
+                    quantity = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(TotalPrice));
+                    OnPropertyChanged(nameof(SaleRecord.SubTotal));
+                }
             }
-        }
-        public double Price { get; set; }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            Debug.WriteLine(propertyName);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public double TotalPrice => Quantity * Price;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public override string ToString()
-        {
-            return $"{ItemId} (x{Quantity})   {Price}   {TotalPrice}";
-        }
     }
 }

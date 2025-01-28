@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AutoCare.MVVM
 {
-    class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

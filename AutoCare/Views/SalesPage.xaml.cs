@@ -3,6 +3,7 @@ using AutoCare.Models;
 using AutoCare.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,14 +15,12 @@ namespace AutoCare.Views
     /// </summary>
     public partial class SalesPage : Page
     {
-        public SaleRecord saleRecord { get; private set; }
+        private SaleRecord Record { get; }
         public SalesPage()
         {
-            DataContext = this;
             InitializeComponent();
-            saleRecord = new SaleRecord();
-            DataContext = saleRecord;
-            dgCart.ItemsSource = saleRecord.Items;
+            Record = new SaleRecord();
+            DataContext = Record;
         }
 
         private void tbSearch_TextChanged(object sender, RoutedEventArgs e)
@@ -31,6 +30,7 @@ namespace AutoCare.Views
             {
                 lbSearch.ItemsSource = null;
                 lbSearch.Visibility = System.Windows.Visibility.Collapsed;
+
                 return;
             }
 
@@ -59,14 +59,14 @@ namespace AutoCare.Views
                     // Perform your desired action with the selected item (e.g., message box)
                     // MessageBox.Show($"Selected: {lbSearch.SelectedItem}");
                     var item = (Item)lbSearch.SelectedItem;
-                    var sItem = saleRecord.Items.FirstOrDefault(s => s.ItemId == item.Id);
+                    var sItem = Record.Items.FirstOrDefault(s => s.ItemId == item.Id);
                     if (sItem != null)
                     {
                         //sItem.Quantity++;
-                        saleRecord.Items.Remove(sItem);
-                        saleRecord.Items.Add(new SaleItem
+                        Record.Items.Remove(sItem);
+                        Record.Items.Add(new SaleItem
                         {
-                            Id = saleRecord.Items.Count + 1,
+                            Id = Record.Items.Count + 1,
                             ItemId = sItem.ItemId,
                             Price = sItem.Price,
                             Quantity = sItem.Quantity + 1
@@ -75,9 +75,9 @@ namespace AutoCare.Views
                     }
                     else
                     {
-                        saleRecord.Items.Add(new SaleItem
+                        Record.Items.Add(new SaleItem
                         {
-                            Id = saleRecord.Items.Count + 1,
+                            Id = Record.Items.Count + 1,
                             ItemId = item.Id,
                             Price = item.RetailPrice,
                             Quantity = 1
@@ -98,16 +98,16 @@ namespace AutoCare.Views
             {
                 // Perform your desired action with the selected item (e.g., message box)
                 var item = (Item)lbSearch.SelectedItem;
-                var sItem = saleRecord.Items.FirstOrDefault(s => s.ItemId == item.Id);
+                var sItem = Record.Items.FirstOrDefault(s => s.ItemId == item.Id);
                 if (sItem != null)
                 {
                     sItem.Quantity++;
                 }
                 else
                 {
-                    saleRecord.Items.Add(new SaleItem
+                    Record.Items.Add(new SaleItem
                     {
-                        Id = saleRecord.Items.Count + 1,
+                        Id = Record.Items.Count + 1,
                         ItemId = item.Id,
                         Price = item.RetailPrice,
                         Quantity = 1

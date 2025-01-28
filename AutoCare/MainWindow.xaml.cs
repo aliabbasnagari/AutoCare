@@ -1,8 +1,10 @@
 ﻿using AutoCare.Views;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Markup;
 
 namespace AutoCare
 {
@@ -13,6 +15,11 @@ namespace AutoCare
     {
         public MainWindow()
         {
+            var vCulture = new CultureInfo("en-PK");
+            Thread.CurrentThread.CurrentCulture = vCulture;
+            Thread.CurrentThread.CurrentUICulture = vCulture;
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
             InitializeComponent();
             rootFrame.Navigate(new Uri($"Views/SalesPage.xaml", UriKind.Relative));
         }
