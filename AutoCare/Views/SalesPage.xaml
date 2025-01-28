@@ -13,7 +13,6 @@
     <Grid>
         <TabControl Grid.Column="0">
             <TabItem Header="New Sale">
-
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
@@ -38,6 +37,7 @@
                                 Padding="3"
                                 VerticalContentAlignment="Center"
                                 FontSize="14"
+                                GotFocus="tbSearch_TextChanged"
                                 TextChanged="tbSearch_TextChanged" />
 
                             <TextBlock
@@ -82,51 +82,63 @@
                         Visibility="Collapsed" />
 
                     <Grid Grid.Row="1">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="300" />
-                            </Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="300" />
+                        </Grid.ColumnDefinitions>
 
-                            <Grid Grid.Column="0">
-                                <DataGrid
-                                    x:Name="dgCart"
-                                    AutoGenerateColumns="False"
-                                    CanUserAddRows="False">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn
-                                            Binding="{Binding ItemId}"
-                                            Header="Item ID"
-                                            IsReadOnly="True" />
+                        <Grid Grid.Column="0">
+                            <DataGrid
+                                x:Name="dgCart"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Binding="{Binding ItemId}"
+                                        Header="Item ID"
+                                        IsReadOnly="True" />
 
-                                        <DataGridTextColumn
-                                            Binding="{Binding Price}"
-                                            Header="Price"
-                                            IsReadOnly="True" />
+                                    <DataGridTextColumn
+                                        Binding="{Binding Price}"
+                                        Header="Price"
+                                        IsReadOnly="True" />
 
-                                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Qty" />
+                                    <DataGridTextColumn Binding="{Binding Quantity}" Header="Quantity" />
 
-                                        <DataGridTextColumn
-                                            Width="*"
-                                            Binding="{Binding TotalPrice}"
-                                            Header="Total Price"
-                                            IsReadOnly="True" />
+                                    <DataGridTextColumn
+                                        Width="*"
+                                        Binding="{Binding TotalPrice}"
+                                        Header="Total Price"
+                                        IsReadOnly="True" />
 
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                            </Grid>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
 
-                            <Grid Grid.Column="1">
-                                <Grid>
+                        <Grid Grid.Column="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="200" />
+                                    <RowDefinition Height="50" />
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Background="AntiqueWhite" />
+
+
+                                <Grid Grid.Row="1" Background="Azure">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
-                                        <RowDefinition Height="200" />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
                                     </Grid.RowDefinitions>
-
-                                    <StackPanel Grid.Row="0" Background="AntiqueWhite" />
-
-                                    <StackPanel Grid.Row="1" Background="Azure" />
+                                    <TextBlock Grid.Row="0" Text="Subtotal" />
+                                    <TextBlock Grid.Row="1" Text="Discount" />
+                                    <TextBlock Grid.Row="2" Text="Tax" />
+                                    <TextBlock Grid.Row="3" Text="Total" />
                                 </Grid>
+                                <StackPanel Grid.Row="2" Background="AntiqueWhite" />
                             </Grid>
                         </Grid>
                     </Grid>

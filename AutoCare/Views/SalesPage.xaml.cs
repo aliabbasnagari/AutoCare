@@ -24,7 +24,7 @@ namespace AutoCare.Views
             dgCart.ItemsSource = saleRecord.Items;
         }
 
-        private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
+        private void tbSearch_TextChanged(object sender, RoutedEventArgs e)
         {
             var searchQuery = tbSearch.Text.Trim().ToLower();
             if (String.IsNullOrEmpty(searchQuery))
