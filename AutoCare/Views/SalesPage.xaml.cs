@@ -17,10 +17,11 @@ namespace AutoCare.Views
         public SaleRecord saleRecord { get; private set; }
         public SalesPage()
         {
+            DataContext = this;
             InitializeComponent();
             saleRecord = new SaleRecord();
             DataContext = saleRecord;
-            lvCart.ItemsSource = saleRecord.Items;
+            dgCart.ItemsSource = saleRecord.Items;
         }
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -100,7 +101,7 @@ namespace AutoCare.Views
                 var sItem = saleRecord.Items.FirstOrDefault(s => s.ItemId == item.Id);
                 if (sItem != null)
                 {
-                  sItem.Quantity++;
+                    sItem.Quantity++;
                 }
                 else
                 {
