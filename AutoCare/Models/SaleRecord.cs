@@ -16,10 +16,26 @@ namespace AutoCare.Models
         {
             Items.CollectionChanged += (sender, args) =>
             {
-                OnPropertyChanged();
+                Debug.WriteLine("Added");
+                if (args.OldItems != null)
+                    foreach (SaleItem item in args.OldItems)
+                        item.PropertyChanged -= SaleItem_PropertyChanged;
+
+                if (args.NewItems != null)
+                    foreach (SaleItem item in args.NewItems)
+                        item.PropertyChanged += SaleItem_PropertyChanged;
+
                 OnPropertyChanged(nameof(SubTotal));
                 OnPropertyChanged(nameof(Total));
             };
+        }
+        private void SaleItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SaleItem.TotalPrice))
+            {
+                OnPropertyChanged(nameof(SubTotal));
+                OnPropertyChanged(nameof(Total));
+            }
         }
 
         public DateTime Date { get; set; }

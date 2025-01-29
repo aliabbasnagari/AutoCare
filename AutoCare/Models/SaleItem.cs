@@ -27,7 +27,6 @@ namespace AutoCare.Models
                     quantity = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(TotalPrice));
-                    OnPropertyChanged(nameof(SaleRecord.SubTotal));
                 }
             }
         }
