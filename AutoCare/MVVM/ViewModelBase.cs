@@ -1,15 +1,31 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using AutoCare.Models;
 
 namespace AutoCare.MVVM
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void OnPropertyChanged([CallerMemberName] string? property = null)
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+            if (propertyName != null)
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected void OnPropertyChanged(params string[] propertyNames)
+        {
+            foreach (var propertyName in propertyNames)
+                OnPropertyChanged(propertyName);
+        }
+
+        protected virtual bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
     }
 }

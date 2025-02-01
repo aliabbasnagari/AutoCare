@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using AutoCare.Data;
 using AutoCare.Models;
+using AutoCare.MVVM;
 using AutoCare.Services;
 
 namespace AutoCare.Views
@@ -12,11 +13,11 @@ namespace AutoCare.Views
     /// </summary>
     public partial class SalesPage : Page
     {
-        private SaleRecord Record { get; }
+        private SaleRecordViewModel Record { get; set; }
         public SalesPage()
         {
             InitializeComponent();
-            Record = new SaleRecord();
+            Record = new SaleRecordViewModel();
             DataContext = Record;
         }
 
