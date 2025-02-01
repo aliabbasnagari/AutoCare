@@ -1,7 +1,6 @@
-﻿using AutoCare.Models;
+﻿using System.Diagnostics;
+using AutoCare.Models;
 using Lucene.Net.Analysis;
-using Lucene.Net.Analysis.Core;
-using Lucene.Net.Analysis.NGram;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Analysis.TokenAttributes;
 using Lucene.Net.Documents;
@@ -10,30 +9,9 @@ using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
-using System.Diagnostics;
-using System.IO;
 
 namespace AutoCare.Services
 {
-    public class EdgeNGramAnalyzer : Analyzer
-    {
-        private readonly int minGramSize;
-        private readonly int maxGramSize;
-
-        public EdgeNGramAnalyzer(int minGramSize = 4, int maxGramSize = 25)
-        {
-            this.minGramSize = minGramSize;
-            this.maxGramSize = maxGramSize;
-        }
-
-        protected override TokenStreamComponents CreateComponents(string fieldName, TextReader textReader)
-        {
-            var tokenizer = new NGramTokenizer(LuceneVersion.LUCENE_48, textReader, minGramSize, maxGramSize);
-            var tokenStream = new StandardFilter(LuceneVersion.LUCENE_48, tokenizer);
-            var tokenStream2 = new LowerCaseFilter(LuceneVersion.LUCENE_48, tokenStream); // Optional, to make search case-insensitive
-            return new TokenStreamComponents(tokenizer, tokenStream2);
-        }
-    }
     public class LSearch
     {
         // private readonly string _indexDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LuceneIndex");
@@ -104,7 +82,7 @@ namespace AutoCare.Services
         public List<Item> ASearchItems(string queryText)
         {
             if (string.IsNullOrEmpty(queryText)) return new List<Item>();
-            
+
             var directory = DirectoryReader.Open(_directory);
             var searcher = new IndexSearcher(directory);
 
@@ -151,7 +129,7 @@ namespace AutoCare.Services
             var tokens = TokenizeSearchQuery(searchQuery);
             foreach (var tk in tokens)
             {
-                Debug.WriteLine("Token: "+ tk);
+                Debug.WriteLine("Token: " + tk);
             }
 
             // Define fuzziness (default is 2, adjust as needed)

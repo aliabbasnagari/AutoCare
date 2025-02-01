@@ -1,12 +1,9 @@
-﻿using AutoCare.Data;
-using AutoCare.Models;
-using AutoCare.Services;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using AutoCare.Data;
+using AutoCare.Models;
+using AutoCare.Services;
 
 namespace AutoCare.Views
 {

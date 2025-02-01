@@ -1,12 +1,10 @@
-﻿using AutoCare.MVVM;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using AutoCare.MVVM;
 
 namespace AutoCare.Models
 {
     public class SaleRecord : ViewModelBase
     {
-
         public int Id { get; set; }
         public string Customer { get; set; }
 
@@ -16,7 +14,6 @@ namespace AutoCare.Models
         {
             Items.CollectionChanged += (sender, args) =>
             {
-                Debug.WriteLine("Added");
                 if (args.OldItems != null)
                     foreach (SaleItem item in args.OldItems)
                         item.PropertyChanged -= SaleItem_PropertyChanged;
@@ -90,7 +87,6 @@ namespace AutoCare.Models
                 }
             }
         }
-
         public double Change => ReceivedAmount - Total;
     }
 

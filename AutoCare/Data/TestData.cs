@@ -1,21 +1,14 @@
-﻿using AutoCare.Models;
-using CsvHelper;
-using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using AutoCare.Models;
+using CsvHelper;
 
 namespace AutoCare.Data
 {
     public class TestData
     {
-     
+
         public static List<Item> LoadItemsFromCsvResource(string resource)
         {
             string resourcePath = $"AutoCare;component/Assets/{resource}";

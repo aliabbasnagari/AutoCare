@@ -1,56 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>True</Optimize>
-    <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
-  </PropertyGroup>
+	<ItemGroup>
+		<None Remove="Assets\app_icon.png" />
+		<None Remove="Assets\Fonts\fa-brands-400.ttf" />
+		<None Remove="Assets\Fonts\fa-duotone-900.ttf" />
+		<None Remove="Assets\Fonts\fa-light-300.ttf" />
+		<None Remove="Assets\Fonts\fa-regular-400.ttf" />
+		<None Remove="Assets\Fonts\fa-solid-900.ttf" />
+		<None Remove="Assets\Fonts\fa_pro_solid_900.otf" />
+		<None Remove="Assets\img.png" />
+		<None Remove="Assets\POS.csv" />
+	</ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Assets\app_icon.png" />
-    <None Remove="Assets\Fonts\fa-brands-400.ttf" />
-    <None Remove="Assets\Fonts\fa-duotone-900.ttf" />
-    <None Remove="Assets\Fonts\fa-light-300.ttf" />
-    <None Remove="Assets\Fonts\fa-regular-400.ttf" />
-    <None Remove="Assets\Fonts\fa-solid-900.ttf" />
-    <None Remove="Assets\Fonts\fa_pro_solid_900.otf" />
-    <None Remove="Assets\img.png" />
-    <None Remove="Assets\POS.csv" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="33.0.1" />
+	<ItemGroup>
+		<!-- 
     <PackageReference Include="DuoVia.FuzzyStrings" Version="2.1.0" />
     <PackageReference Include="FuzzySearch.Net" Version="1.1.0" />
     <PackageReference Include="FuzzySharp" Version="2.0.2" />
     <PackageReference Include="FuzzyString" Version="1.0.0" />
-    <PackageReference Include="Lucene.Net" Version="4.8.0-beta00017" />
-    <PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00017" />
-    <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00017" />
-  </ItemGroup>
+	  -->
+		<PackageReference Include="CsvHelper" Version="33.0.1" />
+		<PackageReference Include="Lucene.Net" Version="4.8.0-beta00017" />
+		<PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00017" />
+		<PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00017" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Assets\app_icon.png" />
-    <Resource Include="Assets\Fonts\fa-brands-400.ttf" />
-    <Resource Include="Assets\Fonts\fa-duotone-900.ttf" />
-    <Resource Include="Assets\Fonts\fa-light-300.ttf" />
-    <Resource Include="Assets\Fonts\fa-regular-400.ttf" />
-    <Resource Include="Assets\Fonts\fa-solid-900.ttf" />
-    <Resource Include="Assets\img.png" />
-    <Resource Include="Assets\POS.csv">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="Assets\app_icon.png" />
+		<Resource Include="Assets\Fonts\fa-brands-400.ttf" />
+		<Resource Include="Assets\Fonts\fa-duotone-900.ttf" />
+		<Resource Include="Assets\Fonts\fa-light-300.ttf" />
+		<Resource Include="Assets\Fonts\fa-regular-400.ttf" />
+		<Resource Include="Assets\Fonts\fa-solid-900.ttf" />
+		<Resource Include="Assets\img.png" />
+		<Resource Include="Assets\POS.csv" />
+	</ItemGroup>
 
 </Project>

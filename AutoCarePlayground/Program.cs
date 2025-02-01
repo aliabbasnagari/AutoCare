@@ -1,11 +1,7 @@
-﻿using AutoCare.Data;
+﻿using System.Collections.ObjectModel;
+using AutoCare.Data;
 using AutoCare.Models;
 using AutoCare.Services;
-using FuzzySharp;
-using FuzzySharp.PreProcess;
-using FuzzyString;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 class Program
 {
@@ -129,7 +125,7 @@ class Program
             avg += (beforeMemory - afterMemory);
         }
         avg /= 10;
-        Console.WriteLine($"AVG Free: {avg} b - {avg/ 1024} Kb");
+        Console.WriteLine($"AVG Free: {avg} b - {avg / 1024} Kb");
 
         avg = 0;
         for (int j = 0; j < 10; j++)

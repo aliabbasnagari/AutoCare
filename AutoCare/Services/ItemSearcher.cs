@@ -1,6 +1,4 @@
 ﻿using AutoCare.Models;
-using DuoVia.FuzzyStrings;
-using System.Diagnostics;
 
 namespace AutoCare.Services
 {
@@ -17,11 +15,13 @@ namespace AutoCare.Services
             {
                 double score = 0;
                 score += KmpMatch(item.Name.ToLower(), searchTerm) * 10;
-                score += KmpMatch(item.Description.ToLower(), searchTerm) * 10;
+                score += KmpMatch(item.Description?.ToLower() ?? string.Empty, searchTerm) * 10;
+
                 score += LcsMatch(item.Name.ToLower(), searchTerm);
-                score += LcsMatch(item.Description.ToLower(), searchTerm);
+                score += LcsMatch(item.Description?.ToLower() ?? string.Empty, searchTerm);
+
                 score += LevenshteinScore(item.Name.ToLower(), searchTerm);
-                score += LevenshteinScore(item.Description.ToLower(), searchTerm);
+                score += LevenshteinScore(item.Description?.ToLower() ?? string.Empty, searchTerm);
 
                 scoredItems.Add((item, score));
             }

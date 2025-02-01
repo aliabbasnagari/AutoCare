@@ -1,22 +1,7 @@
-﻿using AutoCare.Components;
-using AutoCare.Models;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using AutoCare.Components;
+using AutoCare.Models;
 
 namespace AutoCare.Views
 {
@@ -95,7 +80,6 @@ namespace AutoCare.Views
         {
             if (sender is Button btn && btn.Tag is Category cat)
             {
-                Debug.WriteLine(cat.Name);
                 var dialog = new CategoryDeleteDialog();
                 if (dialog.ShowDialog() == true)
                 {
