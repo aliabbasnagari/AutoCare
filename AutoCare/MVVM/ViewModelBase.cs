@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using AutoCare.Models;
 
 namespace AutoCare.MVVM
 {
@@ -25,6 +24,14 @@ namespace AutoCare.MVVM
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;
             field = value;
             OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        protected virtual bool SetProperty<T>(ref T field, T value, params string[] propertyNames)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyNames);
             return true;
         }
     }

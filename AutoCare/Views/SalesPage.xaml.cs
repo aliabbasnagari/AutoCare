@@ -60,27 +60,27 @@ namespace AutoCare.Views
                     var sItem = Record.Items.FirstOrDefault(s => s.ItemId == item.Id);
                     if (sItem != null)
                     {
-                        //sItem.Quantity++;
-                        Record.Items.Remove(sItem);
-                        Record.Items.Add(new SaleItem
-                        {
-                            Id = Record.Items.Count + 1,
-                            ItemId = sItem.ItemId,
-                            Price = sItem.Price,
-                            Quantity = sItem.Quantity + 1
-                        });
-                        sItem = null;
+                        sItem.Quantity++;
+                        //Record.Items.Remove(sItem);
+                        //Record.Items.Add(new SaleItem(item)
+                        //{
+                        //    Id = Record.Items.Count + 1,
+                        //    ItemId = sItem.ItemId,
+                        //    Quantity = sItem.Quantity + 1
+                        //});
+                        //sItem = null;
                     }
                     else
                     {
-                        Record.Items.Add(new SaleItem
+                        Record.Items.Add(new SaleItem(item)
                         {
                             Id = Record.Items.Count + 1,
-                            ItemId = item.Id,
-                            Price = item.RetailPrice,
                             Quantity = 1
                         });
                     }
+
+                    item = null;
+                    sItem = null;
 
                     // Collapse the ListView
                     lbSearch.ItemsSource = null;
@@ -103,11 +103,9 @@ namespace AutoCare.Views
                 }
                 else
                 {
-                    Record.Items.Add(new SaleItem
+                    Record.Items.Add(new SaleItem(item)
                     {
                         Id = Record.Items.Count + 1,
-                        ItemId = item.Id,
-                        Price = item.RetailPrice,
                         Quantity = 1
                     });
                 }

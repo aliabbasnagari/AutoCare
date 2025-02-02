@@ -1,25 +1,37 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using AutoCare.Models;
 
 namespace AutoCare.MVVM
 {
     public class SaleRecordViewModel : ViewModelBase
     {
-        private SaleRecord _saleRecord;
-        public ObservableCollection<SaleItem> Items { get; }
+        private int Id;
+        public ObservableCollection<SaleItem> Items { get; } = new ObservableCollection<SaleItem>();
 
-        public SaleRecordViewModel(SaleRecord? saleRecord = null)
+        public SaleRecordViewModel()
         {
-            _saleRecord = saleRecord ?? new SaleRecord();
-            Items = new ObservableCollection<SaleItem>(_saleRecord.Items);
-            foreach (var item in Items)
+            _customer = "N/A";
+            Items.CollectionChanged += (s, e) =>
             {
-                item.PropertyChanged += SaleItem_PropertyChanged;
-            }
-            Items.CollectionChanged += Items_CollectionChanged;
+                if (e.OldItems != null)
+                {
+                    foreach (SaleItem item in e.OldItems)
+                    {
+                        item.PropertyChanged -= SaleItem_PropertyChanged;
+                    }
+                }
+
+                if (e.NewItems != null)
+                {
+                    foreach (SaleItem item in e.NewItems)
+                    {
+                        item.PropertyChanged += SaleItem_PropertyChanged;
+                    }
+                }
+                OnPropertyChanged(nameof(SubTotal), nameof(Total));
+            };
         }
 
         private void SaleItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -30,126 +42,53 @@ namespace AutoCare.MVVM
             }
         }
 
-        private void Items_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-            {
-                foreach (SaleItem item in e.OldItems)
-                {
-                    item.PropertyChanged -= SaleItem_PropertyChanged;
-                }
-            }
-
-            if (e.NewItems != null)
-            {
-                foreach (SaleItem item in e.NewItems)
-                {
-                    item.PropertyChanged += SaleItem_PropertyChanged;
-                }
-            }
-            OnPropertyChanged(nameof(SubTotal), nameof(Total), nameof(ReturnChange));
-        }
-
-        public int Id
-        {
-            get => _saleRecord.Id;
-            set
-            {
-                if (_saleRecord.Id != value)
-                {
-                    _saleRecord.Id = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
+        private string _customer;
         public string Customer
         {
-            get => _saleRecord.Customer;
-            set
-            {
-                if (_saleRecord.Customer != value)
-                {
-                    _saleRecord.Customer = value;
-                    OnPropertyChanged();
-                }
-            }
+            get => _customer;
+            set => SetProperty(ref _customer, value);
         }
 
-
+        private DateTime _date;
         public DateTime Date
         {
-            get => _saleRecord.Date;
-            set
-            {
-                if (_saleRecord.Date != value)
-                {
-                    _saleRecord.Date = value;
-                    OnPropertyChanged();
-                }
-            }
+            get => _date;
+            set => SetProperty(ref _date, value);
         }
 
-        public double SubTotal => _saleRecord.SubTotal;
+        public double SubTotal => Items.Sum(i => i.TotalPrice);
 
+
+        private double _tax;
         public double Tax
         {
-            get => _saleRecord.Tax;
-            set
-            {
-                if (_saleRecord.Tax != value)
-                {
-                    _saleRecord.Tax = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(Total), nameof(ReturnChange));
-                }
-            }
+            get => _tax;
+            set => SetProperty(ref _tax, value, nameof(Tax), nameof(Total), nameof(ReturnChange));
         }
 
+        public double _discount;
         public double Discount
         {
-            get => _saleRecord.Discount;
-            set
-            {
-                if (_saleRecord.Discount != value)
-                {
-                    _saleRecord.Discount = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(Total));
-                    OnPropertyChanged(nameof(ReturnChange));
-                }
-            }
+            get => _discount;
+            set => SetProperty(ref _discount, value, nameof(Discount), nameof(Total), nameof(ReturnChange));
         }
 
-        public double Total => _saleRecord.Total;
+        public double Total => (SubTotal + _tax) - _discount;
 
+        private string? _status;
         public string? Status
         {
-            get => _saleRecord.Status;
-            set
-            {
-                if (_saleRecord.Status != value)
-                {
-                    _saleRecord.Status = value;
-                    OnPropertyChanged();
-                }
-            }
+            get => _status;
+            set => SetProperty(ref _status, value);
         }
 
+        private double _receivedAmount;
         public double ReceivedAmount
         {
-            get => _saleRecord.ReceivedAmount;
-            set
-            {
-                if (_saleRecord.ReceivedAmount != value)
-                {
-                    _saleRecord.ReceivedAmount = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(ReturnChange));
-                }
-            }
+            get => _receivedAmount;
+            set => SetProperty(ref _receivedAmount, value, nameof(ReceivedAmount), nameof(ReturnChange));
         }
 
-        public double ReturnChange => _saleRecord.ReturnChange;
+        public double ReturnChange => _receivedAmount - Total;
     }
 }

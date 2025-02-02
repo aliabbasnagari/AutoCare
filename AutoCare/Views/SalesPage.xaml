@@ -11,8 +11,6 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-
-
     <Grid>
         <TabControl Grid.Column="0">
             <TabItem Header="New Sale">
@@ -102,7 +100,12 @@
                                         IsReadOnly="True" />
 
                                     <DataGridTextColumn
-                                        Binding="{Binding Price}"
+                                        Binding="{Binding Item.Name}"
+                                        Header="Item Name"
+                                        IsReadOnly="True" />
+
+                                    <DataGridTextColumn
+                                        Binding="{Binding Item.RetailPrice}"
                                         Header="Price"
                                         IsReadOnly="True" />
 
@@ -122,7 +125,7 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
-                                    <RowDefinition Height="200" />
+                                    <RowDefinition Height="auto" />
                                     <RowDefinition Height="50" />
                                 </Grid.RowDefinitions>
 
@@ -137,17 +140,25 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
 
+                                    <comp:LabelText
+                                        Grid.Row="0"
+                                        Label="SubTotal"
+                                        Text="{Binding SubTotal}" />
 
-                                    <TextBlock Grid.Row="0" Text="{Binding SubTotal, StringFormat='Subtotal: {0:C2}'}" />
                                     <comp:LabelTextBox
                                         Grid.Row="1"
                                         Label="Discount"
                                         Text="{Binding Discount}" />
+
                                     <comp:LabelTextBox
                                         Grid.Row="2"
                                         Label="Tax"
                                         Text="{Binding Tax}" />
-                                    <TextBlock Grid.Row="3" Text="{Binding Total, StringFormat='Total: {0:C2}'}" />
+
+                                    <comp:LabelText
+                                        Grid.Row="3"
+                                        Label="Total"
+                                        Text="{Binding Total}" />
                                 </Grid>
                                 <StackPanel Grid.Row="2" Background="AntiqueWhite" />
                             </Grid>

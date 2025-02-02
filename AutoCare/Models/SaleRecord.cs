@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public string Customer { get; set; }
+        public string Customer { get; set; } = "N/A";
 
         public List<SaleItem> Items { get; set; } = new List<SaleItem>();
 
