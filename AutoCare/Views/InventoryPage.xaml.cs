@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,18 +7,36 @@ using System.Windows.Media.Animation;
 using AutoCare.Data;
 using AutoCare.Models;
 using AutoCare.Services;
+using Lucene.Net.Index;
 
 namespace AutoCare.Views
 {
+    public class DataPreloader
+    {
+        private static readonly Lazy<List<Item>> _dataCache = new Lazy<List<Item>>(LoadData);
+
+        public static List<Item> Data => _dataCache.Value;
+
+        private static List<Item> LoadData()
+        {
+            Debug.WriteLine("CALLED");
+            return TestData.LoadItemsFromCsvResource("POS.csv");
+        }
+    }
     /// <summary>
     /// Interaction logic for InventoryPage.xaml
     /// </summary>
     public partial class InventoryPage : Page
     {
-        public ObservableCollection<Item> Items { get; } = new();
-        public ObservableCollection<Item> FilteredItems { get; } = new();
+
+        public List<Item> Items => DataPreloader.Data;
+        public List<Item> FilteredItems { get; } = new();
+        public ObservableCollection<Item> ItemsToDisplay { get; } = new();
+
 
         private CancellationTokenSource? _cancellationTokenSource;
+
+        private Paginator<Item> _paginator;
 
         public InventoryPage()
         {
@@ -25,6 +44,7 @@ namespace AutoCare.Views
             DataContext = this;
             Loaded += OnPageLoaded;
             Unloaded += OnPageUnloaded;
+            _paginator = new Paginator<Item>(Items.ToList(), 20);
         }
 
         private async void OnPageLoaded(object sender, RoutedEventArgs e)
@@ -39,7 +59,6 @@ namespace AutoCare.Views
 
         private async Task LoadItemsAsync()
         {
-            Items.Clear();
             FilteredItems.Clear();
             _cancellationTokenSource = new CancellationTokenSource();
             try
@@ -47,14 +66,26 @@ namespace AutoCare.Views
                 pbLoading.Visibility = Visibility.Visible;
                 pbLoading.Value = 0;
 
-                var items = await Task.Run(() =>
-                    TestData.LoadItemsFromCsvResource("POS.csv"),
-                    _cancellationTokenSource.Token);
+                //var items = await Task.Run(() =>
+                //    TestData.LoadItemsFromCsvResource("POS.csv"),
+                //    _cancellationTokenSource.Token);
 
-                var progress = new Progress<double>(value =>
+                IProgress<double> progress = new Progress<double>(value =>
                     pbLoading.Value = value);
 
-                await LoadItemsWithProgressAsync(items, progress, _cancellationTokenSource.Token);
+                var items = _paginator.CurrentPage();
+
+                var i = 0;
+                var progressStep = items.Count / 100f;
+                foreach (var item in items)
+                {
+                    i++;
+                    _cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    FilteredItems.Add(item);
+                    progress.Report(i / progressStep);
+                    await Task.Yield();
+                }
+                progress.Report(100);
             }
             catch (OperationCanceledException)
             {
@@ -70,23 +101,6 @@ namespace AutoCare.Views
             {
                 pbLoading.Visibility = Visibility.Collapsed;
             }
-        }
-
-        private async Task LoadItemsWithProgressAsync(IList<Item> items, IProgress<double> progress, CancellationToken cancellationToken)
-        {
-            var i = 0;
-            var progressStep = items.Count / 100f;
-
-            foreach (var item in items)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                i++;
-                Items.Add(item);
-                FilteredItems.Add(item);
-                progress.Report(i / progressStep);
-                await Task.Yield();
-            }
-            progress.Report(100);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

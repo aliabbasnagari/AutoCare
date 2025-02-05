@@ -113,7 +113,7 @@
                     <DataGrid
                         CanUserAddRows="False"
                         IsReadOnly="True"
-                        ItemsSource="{Binding FilteredItems, Mode=OneWay}">
+                        ItemsSource="{Binding ItemsToDisplay, Mode=OneWay}">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="50"
@@ -167,7 +167,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Custom">
-                    <ListView HorizontalContentAlignment="Stretch" ItemsSource="{Binding FilteredItems, Mode=OneWay}">
+                    <ListView HorizontalContentAlignment="Stretch" ItemsSource="{Binding ItemsToDisplay, Mode=OneWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border
