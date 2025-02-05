@@ -16,6 +16,12 @@
 		<None Remove="Assets\Fonts\fa-regular-400.ttf" />
 		<None Remove="Assets\Fonts\fa-solid-900.ttf" />
 		<None Remove="Assets\Fonts\fa_pro_solid_900.otf" />
+		<None Remove="Assets\Icons\Barchart.png" />
+		<None Remove="Assets\Icons\Box.png" />
+		<None Remove="Assets\Icons\File.png" />
+		<None Remove="Assets\Icons\Grid.png" />
+		<None Remove="Assets\Icons\home.png" />
+		<None Remove="Assets\Images\logo.png" />
 		<None Remove="Assets\img.png" />
 		<None Remove="Assets\POS.csv" />
 	</ItemGroup>
@@ -40,6 +46,12 @@
 		<Resource Include="Assets\Fonts\fa-light-300.ttf" />
 		<Resource Include="Assets\Fonts\fa-regular-400.ttf" />
 		<Resource Include="Assets\Fonts\fa-solid-900.ttf" />
+		<Resource Include="Assets\Icons\Barchart.png" />
+		<Resource Include="Assets\Icons\Box.png" />
+		<Resource Include="Assets\Icons\File.png" />
+		<Resource Include="Assets\Icons\Grid.png" />
+		<Resource Include="Assets\Icons\Home.png" />
+		<Resource Include="Assets\Images\logo.png" />
 		<Resource Include="Assets\img.png" />
 		<Resource Include="Assets\POS.csv" />
 	</ItemGroup>

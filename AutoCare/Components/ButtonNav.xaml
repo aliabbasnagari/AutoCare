@@ -1,0 +1,73 @@
+﻿<RadioButton
+    x:Class="AutoCare.Components.ButtonNav"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:AutoCare.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="root"
+    Height="80"
+    d:DesignWidth="200"
+    mc:Ignorable="d">
+
+    <RadioButton.Template>
+        <ControlTemplate TargetType="RadioButton">
+            <Border
+                x:Name="MainBorder"
+                Padding="6"
+                Background="Transparent">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Line
+                        x:Name="myLine"
+                        Grid.Column="0"
+                        Margin="0,0,6,0"
+                        VerticalAlignment="Center"
+                        Stroke="{StaticResource Primary}"
+                        StrokeEndLineCap="Round"
+                        StrokeStartLineCap="Round"
+                        StrokeThickness="5"
+                        X1="0"
+                        X2="0"
+                        Y1="0"
+                        Y2="65" />
+
+                    <Grid Grid.Column="1" Margin="6,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Image
+                            Grid.Row="0"
+                            Width="30"
+                            Height="30"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Source="{Binding Icon}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource Primary}"
+                            Text="{Binding Content}" />
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="MainBorder" Property="Background" Value="{StaticResource PrimaryFixedDim}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </RadioButton.Template>
+</RadioButton>

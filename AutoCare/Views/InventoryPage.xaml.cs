@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -13,29 +14,79 @@ namespace AutoCare.Views
     /// </summary>
     public partial class InventoryPage : Page
     {
-        public ObservableCollection<Item> Items { get; set; }
-        public ObservableCollection<Item> FilteredItems { get; set; }
-        public bool ShowSide { get; set; }
+        public ObservableCollection<Item> Items { get; } = new();
+        public ObservableCollection<Item> FilteredItems { get; } = new();
+
+        private CancellationTokenSource? _cancellationTokenSource;
 
         public InventoryPage()
         {
             InitializeComponent();
-
-            Items = new ObservableCollection<Item>();
-            FilteredItems = new ObservableCollection<Item>();
-            this.DataContext = this;
-            LoadData();
+            DataContext = this;
+            Loaded += OnPageLoaded;
+            Unloaded += OnPageUnloaded;
         }
 
-        private void LoadData()
+        private async void OnPageLoaded(object sender, RoutedEventArgs e)
         {
-            pbLoading.Visibility = Visibility.Visible;
-            foreach (var item in TestData.LoadItemsFromCsvResource("POS.csv"))
+            await LoadItemsAsync();
+        }
+
+        private void OnPageUnloaded(object sender, RoutedEventArgs e)
+        {
+            _cancellationTokenSource?.Cancel();
+        }
+
+        private async Task LoadItemsAsync()
+        {
+            Items.Clear();
+            FilteredItems.Clear();
+            _cancellationTokenSource = new CancellationTokenSource();
+            try
             {
+                pbLoading.Visibility = Visibility.Visible;
+                pbLoading.Value = 0;
+
+                var items = await Task.Run(() =>
+                    TestData.LoadItemsFromCsvResource("POS.csv"),
+                    _cancellationTokenSource.Token);
+
+                var progress = new Progress<double>(value =>
+                    pbLoading.Value = value);
+
+                await LoadItemsWithProgressAsync(items, progress, _cancellationTokenSource.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                MessageBox.Show("Item loading was cancelled.", "Cancelled",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading items: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                pbLoading.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private async Task LoadItemsWithProgressAsync(IList<Item> items, IProgress<double> progress, CancellationToken cancellationToken)
+        {
+            var i = 0;
+            var progressStep = items.Count / 100f;
+
+            foreach (var item in items)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                i++;
                 Items.Add(item);
                 FilteredItems.Add(item);
+                progress.Report(i / progressStep);
+                await Task.Yield();
             }
-            pbLoading.Visibility = Visibility.Collapsed;
+            progress.Report(100);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
