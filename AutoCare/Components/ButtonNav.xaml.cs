@@ -35,30 +35,19 @@ namespace AutoCare.Components
             Line? myLine = this.Template.FindName("myLine", this) as Line;
             if (myLine != null)
             {
-                if (IsChecked == true)
+                myLine.Visibility = Visibility.Visible;
+                DoubleAnimation da = new DoubleAnimation
                 {
-                    myLine.Visibility = Visibility.Visible;
-                    DoubleAnimation da = new DoubleAnimation
-                    {
-                        From = 0,
-                        To = 65,
-                        Duration = TimeSpan.FromMilliseconds(150),
-                        EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
-                    };
-                    myLine.BeginAnimation(Line.Y2Property, da);
-                }
-                else
-                {
-                    DoubleAnimation da = new DoubleAnimation
-                    {
-                        From = 65,
-                        To = 0,
-                        Duration = TimeSpan.FromMilliseconds(150),
-                        EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
-                    };
+                    From = (IsChecked == true) ? 0 : 65,
+                    To = (IsChecked == true) ? 65 : 0,
+                    Duration = TimeSpan.FromMilliseconds(150),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                };
+
+                if (IsChecked != true)
                     da.Completed += (s, e) => myLine.Visibility = Visibility.Collapsed;
-                    myLine.BeginAnimation(Line.Y2Property, da);
-                }
+
+                myLine.BeginAnimation(Line.Y2Property, da);
             }
         }
     }

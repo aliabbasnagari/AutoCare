@@ -36,6 +36,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -94,7 +95,48 @@
                 Content="Search" />
         </Grid>
 
-        <Grid Grid.Row="2">
+        <StackPanel
+            x:Name="pagination"
+            Grid.Row="2"
+            Orientation="Horizontal">
+            <Button
+                Margin="5,0"
+                Click="Page_Navigation"
+                Content="Next"
+                Tag="Next" />
+            <Button
+                Margin="5,0"
+                Click="Page_Navigation"
+                Content="1"
+                Tag="1" />
+            <Button
+                Margin="5,0"
+                Click="Page_Navigation"
+                Content="2"
+                Tag="2" />
+            <Button
+                Margin="5,0"
+                Click="Page_Navigation"
+                Content="3"
+                Tag="3" />
+            <Button
+                Margin="5,0"
+                Click="Page_Navigation"
+                Content="4"
+                Tag="4" />
+            <Button
+                Margin="5,0"
+                Click="Page_Navigation"
+                Content="5"
+                Tag="5" />
+            <Button
+                Margin="5,0"
+                Click="Page_Navigation"
+                Content="Previous"
+                Tag="Previous" />
+        </StackPanel>
+
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
@@ -113,7 +155,7 @@
                     <DataGrid
                         CanUserAddRows="False"
                         IsReadOnly="True"
-                        ItemsSource="{Binding ItemsToDisplay, Mode=OneWay}">
+                        ItemsSource="{Binding FilteredItems, Mode=OneWay}">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="50"
@@ -138,11 +180,11 @@
                             <DataGridTextColumn
                                 Width="100"
                                 Binding="{Binding StockQuantity}"
-                                Header="Stock Quantity" />
+                                Header="Stock" />
                             <DataGridTextColumn
                                 Width="100"
                                 Binding="{Binding SoldQuantity}"
-                                Header="Sold Quantity" />
+                                Header="Sold" />
                             <DataGridTextColumn
                                 Width="150"
                                 Binding="{Binding Location}"
@@ -167,7 +209,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Custom">
-                    <ListView HorizontalContentAlignment="Stretch" ItemsSource="{Binding ItemsToDisplay, Mode=OneWay}">
+                    <ListView HorizontalContentAlignment="Stretch" ItemsSource="{Binding FilteredItems, Mode=OneWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border

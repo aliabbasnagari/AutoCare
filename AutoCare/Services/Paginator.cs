@@ -29,6 +29,11 @@ namespace AutoCare.Services
             return _items.Skip(pageIndex * _pageSize).Take(_pageSize).ToList();
         }
 
+        public int PageNumber()
+        {
+            return _currentPage;
+        }
+
         public List<T> CurrentPage()
         {
             return GetPage(_currentPage);
@@ -43,11 +48,20 @@ namespace AutoCare.Services
             return GetPage(_currentPage);
         }
 
-        public List<T> PrevPage()
+        public List<T> PreviousPage()
         {
             if (_currentPage > 0)
             {
                 _currentPage--;
+            }
+            return GetPage(_currentPage);
+        }
+
+        public List<T> MovePages(int step)
+        {
+            if (_currentPage + step < TotalPages && _currentPage + step > 0)
+            {
+                _currentPage += step;
             }
             return GetPage(_currentPage);
         }
