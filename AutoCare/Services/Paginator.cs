@@ -29,6 +29,14 @@ namespace AutoCare.Services
             return _items.Skip(pageIndex * _pageSize).Take(_pageSize).ToList();
         }
 
+        public List<T> MoveToPage(int pageNumber)
+        {
+            if (pageNumber < 0 || pageNumber > TotalPages)
+                throw new IndexOutOfRangeException("Invalid page number");
+            _currentPage = pageNumber;
+            return GetPage(_currentPage);
+        }
+
         public int PageNumber()
         {
             return _currentPage;

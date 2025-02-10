@@ -18,7 +18,7 @@ namespace AutoCare
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
             InitializeComponent();
-            rootFrame.Navigate(new Uri($"Views/SalesPage.xaml", UriKind.Relative));
+            rootFrame.Navigate(new Uri($"Views/InventoryPage.xaml", UriKind.Relative));
         }
 
         private void NavigateToPage(object sender, RoutedEventArgs e)

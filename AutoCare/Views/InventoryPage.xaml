@@ -2,6 +2,7 @@
     x:Class="AutoCare.Views.InventoryPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:comp="clr-namespace:AutoCare.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:AutoCare.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -102,38 +103,19 @@
             <Button
                 Margin="5,0"
                 Click="Page_Navigation"
+                Content="Prev"
+                Tag="Previous" />
+
+            <StackPanel x:Name="dynamicPagination" Orientation="Horizontal" />
+
+
+            <Button
+                Margin="5,0"
+                Click="Page_Navigation"
                 Content="Next"
                 Tag="Next" />
-            <Button
-                Margin="5,0"
-                Click="Page_Navigation"
-                Content="1"
-                Tag="1" />
-            <Button
-                Margin="5,0"
-                Click="Page_Navigation"
-                Content="2"
-                Tag="2" />
-            <Button
-                Margin="5,0"
-                Click="Page_Navigation"
-                Content="3"
-                Tag="3" />
-            <Button
-                Margin="5,0"
-                Click="Page_Navigation"
-                Content="4"
-                Tag="4" />
-            <Button
-                Margin="5,0"
-                Click="Page_Navigation"
-                Content="5"
-                Tag="5" />
-            <Button
-                Margin="5,0"
-                Click="Page_Navigation"
-                Content="Previous"
-                Tag="Previous" />
+
+            <comp:Pagination CurrentPage="1" TotalPages="33" />
         </StackPanel>
 
         <Grid Grid.Row="3">

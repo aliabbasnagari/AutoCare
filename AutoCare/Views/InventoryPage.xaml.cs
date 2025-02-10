@@ -92,39 +92,42 @@ namespace AutoCare.Views
 
         private void CreatePagination(Paginator<Item> paginator)
         {
-            if(paginator.TotalPages <= 10)
+            dynamicPagination.Children.Clear();
+            if (paginator.TotalPages - paginator.PageNumber() < 7)
             {
-                for (int i = 1; i <= paginator.TotalPages; i++)
+                for (int i = paginator.PageNumber(); i < paginator.TotalPages; i++)
                 {
                     Button btn = new Button
                     {
                         Content = $"{i}",
                         Tag = i,
                         Margin = new Thickness(5)
-                    };
-                    pagination.Children.Add(btn);
+                    }; 
+                    btn.Click += (s, e) => Page_Navigation(s, e);
+                    dynamicPagination.Children.Add(btn);
                 }
             }
             else
             {
-                for (int i = _paginator.PageNumber(); i <= _paginator.PageNumber() + 3; i++)
+                for (int i = _paginator.PageNumber(); i < _paginator.PageNumber() + 3; i++)
                 {
                     Button btn = new Button
                     {
                         Content = $"{i + 1}",
                         Tag = i,
-                        Margin = new Thickness(5)
+                        Margin = new Thickness(5),
                     };
-                    pagination.Children.Add(btn);
+                    btn.Click += (s, e) => Page_Navigation(s, e);
+                    dynamicPagination.Children.Add(btn);
                 }
 
-                pagination.Children.Add(new TextBlock
+                dynamicPagination.Children.Add(new TextBlock
                 {
-                    Text="..."
+                    Text = "..."
                 });
 
 
-                for (int i = _paginator.TotalPages - 3; i <= _paginator.TotalPages; i++)
+                for (int i = _paginator.TotalPages - 3; i < _paginator.TotalPages; i++)
                 {
                     Button btn = new Button
                     {
@@ -132,12 +135,13 @@ namespace AutoCare.Views
                         Tag = i,
                         Margin = new Thickness(5)
                     };
-                    pagination.Children.Add(btn);
+                    btn.Click += (s, e) => Page_Navigation(s, e);
+                    dynamicPagination.Children.Add(btn);
                 }
             }
 
 
-         
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -272,7 +276,7 @@ namespace AutoCare.Views
 
                 if (int.TryParse(btn.Tag?.ToString(), out int tag))
                 {
-                    _paginator.MovePages(tag);
+                    _paginator.MoveToPage(tag);
                     await ReloadItemsAsync();
                 }
 
@@ -288,6 +292,7 @@ namespace AutoCare.Views
                         await ReloadItemsAsync();
                         break;
                 }
+                CreatePagination(_paginator);
             }
 
         }
