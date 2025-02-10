@@ -71,7 +71,10 @@
             Width="1"
             Margin="3,7"
             Fill="#dee4ec" />
-        <RadioButton x:Name="btn1" Content="1" />
+        <RadioButton
+            x:Name="btn1"
+            Checked="Page_Changed"
+            Content="1" />
         <TextBlock
             x:Name="lSeparator"
             Width="40"
@@ -82,18 +85,32 @@
             TextAlignment="Center" />
         <RadioButton
             x:Name="btn8"
+            Checked="Page_Changed"
             Content="8"
             Visibility="Collapsed" />
-        <RadioButton x:Name="btn2" Content="2" />
-        <RadioButton x:Name="btn3" Content="3" />
+        <RadioButton
+            x:Name="btn2"
+            Checked="Page_Changed"
+            Content="2" />
+        <RadioButton
+            x:Name="btn3"
+            Checked="Page_Changed"
+            Content="3" />
         <RadioButton
             x:Name="btn4"
-            Content="4"
-            IsChecked="True" />
-        <RadioButton x:Name="btn5" Content="5" />
-        <RadioButton x:Name="btn6" Content="6" />
+            Checked="Page_Changed"
+            Content="4" />
+        <RadioButton
+            x:Name="btn5"
+            Checked="Page_Changed"
+            Content="5" />
+        <RadioButton
+            x:Name="btn6"
+            Checked="Page_Changed"
+            Content="6" />
         <RadioButton
             x:Name="btn9"
+            Checked="Page_Changed"
             Content="9"
             Visibility="Collapsed" />
         <TextBlock
@@ -104,7 +121,10 @@
             Foreground="#6c7682"
             Text="..."
             TextAlignment="Center" />
-        <RadioButton x:Name="btn7" Content="7" />
+        <RadioButton
+            x:Name="btn7"
+            Checked="Page_Changed"
+            Content="7" />
         <Rectangle
             Width="1"
             Margin="3,7"

@@ -42,7 +42,7 @@ namespace AutoCare.Views
 
         private async void OnPageLoaded(object sender, RoutedEventArgs e)
         {
-            CreatePagination(_paginator);
+           // CreatePagination(_paginator);
             await ReloadItemsAsync();
         }
 
@@ -53,6 +53,8 @@ namespace AutoCare.Views
 
         private async Task ReloadItemsAsync()
         {
+            pagination.TotalPages = _paginator.TotalPages;
+            pagination.CurrentPage = _paginator.PageNumber() + 1;
             FilteredItems.Clear();
             try
             {
@@ -90,59 +92,59 @@ namespace AutoCare.Views
             }
         }
 
-        private void CreatePagination(Paginator<Item> paginator)
-        {
-            dynamicPagination.Children.Clear();
-            if (paginator.TotalPages - paginator.PageNumber() < 7)
-            {
-                for (int i = paginator.PageNumber(); i < paginator.TotalPages; i++)
-                {
-                    Button btn = new Button
-                    {
-                        Content = $"{i}",
-                        Tag = i,
-                        Margin = new Thickness(5)
-                    }; 
-                    btn.Click += (s, e) => Page_Navigation(s, e);
-                    dynamicPagination.Children.Add(btn);
-                }
-            }
-            else
-            {
-                for (int i = _paginator.PageNumber(); i < _paginator.PageNumber() + 3; i++)
-                {
-                    Button btn = new Button
-                    {
-                        Content = $"{i + 1}",
-                        Tag = i,
-                        Margin = new Thickness(5),
-                    };
-                    btn.Click += (s, e) => Page_Navigation(s, e);
-                    dynamicPagination.Children.Add(btn);
-                }
+        //private void CreatePagination(Paginator<Item> paginator)
+        //{
+        //    dynamicPagination.Children.Clear();
+        //    if (paginator.TotalPages - paginator.PageNumber() < 7)
+        //    {
+        //        for (int i = paginator.PageNumber(); i < paginator.TotalPages; i++)
+        //        {
+        //            Button btn = new Button
+        //            {
+        //                Content = $"{i}",
+        //                Tag = i,
+        //                Margin = new Thickness(5)
+        //            }; 
+        //            btn.Click += (s, e) => Page_Navigation(s, e);
+        //            dynamicPagination.Children.Add(btn);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        for (int i = _paginator.PageNumber(); i < _paginator.PageNumber() + 3; i++)
+        //        {
+        //            Button btn = new Button
+        //            {
+        //                Content = $"{i + 1}",
+        //                Tag = i,
+        //                Margin = new Thickness(5),
+        //            };
+        //            btn.Click += (s, e) => Page_Navigation(s, e);
+        //            dynamicPagination.Children.Add(btn);
+        //        }
 
-                dynamicPagination.Children.Add(new TextBlock
-                {
-                    Text = "..."
-                });
-
-
-                for (int i = _paginator.TotalPages - 3; i < _paginator.TotalPages; i++)
-                {
-                    Button btn = new Button
-                    {
-                        Content = $"{i}",
-                        Tag = i,
-                        Margin = new Thickness(5)
-                    };
-                    btn.Click += (s, e) => Page_Navigation(s, e);
-                    dynamicPagination.Children.Add(btn);
-                }
-            }
+        //        dynamicPagination.Children.Add(new TextBlock
+        //        {
+        //            Text = "..."
+        //        });
 
 
+        //        for (int i = _paginator.TotalPages - 3; i < _paginator.TotalPages; i++)
+        //        {
+        //            Button btn = new Button
+        //            {
+        //                Content = $"{i}",
+        //                Tag = i,
+        //                Margin = new Thickness(5)
+        //            };
+        //            btn.Click += (s, e) => Page_Navigation(s, e);
+        //            dynamicPagination.Children.Add(btn);
+        //        }
+        //    }
 
-        }
+
+
+        //}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -292,7 +294,7 @@ namespace AutoCare.Views
                         await ReloadItemsAsync();
                         break;
                 }
-                CreatePagination(_paginator);
+                //CreatePagination(_paginator);
             }
 
         }

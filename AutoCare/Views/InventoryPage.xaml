@@ -96,27 +96,14 @@
                 Content="Search" />
         </Grid>
 
-        <StackPanel
+
+
+        <comp:Pagination
             x:Name="pagination"
             Grid.Row="2"
-            Orientation="Horizontal">
-            <Button
-                Margin="5,0"
-                Click="Page_Navigation"
-                Content="Prev"
-                Tag="Previous" />
+            CurrentPage="1"
+            TotalPages="33" />
 
-            <StackPanel x:Name="dynamicPagination" Orientation="Horizontal" />
-
-
-            <Button
-                Margin="5,0"
-                Click="Page_Navigation"
-                Content="Next"
-                Tag="Next" />
-
-            <comp:Pagination CurrentPage="1" TotalPages="33" />
-        </StackPanel>
 
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>

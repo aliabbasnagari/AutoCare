@@ -70,12 +70,22 @@ namespace AutoCare.Components
             if (CurrentPage > 1) CurrentPage--;
         }
 
+        private void Page_Changed(object sender, RoutedEventArgs e)
+        {
+            if (sender is RadioButton radioButton && radioButton.Content is int val)
+            {
+                CurrentPage = val;
+            }
+        }
+
         private void UpdateButtons()
         {
-            if (TotalPages <= 7)
+            if (TotalPages <= 9)
             {
                 lSeparator.Visibility = Visibility.Collapsed;
-                rSeparator.Visibility = Visibility.Collapsed;
+                rSeparator.Visibility = Visibility.Collapsed; 
+                radioButtons[7].Visibility = Visibility.Visible;
+                radioButtons[8].Visibility = Visibility.Visible;
                 for (int i = 0; i < radioButtons.Length; i++)
                 {
                     radioButtons[i].Content = i + 1;
@@ -85,13 +95,15 @@ namespace AutoCare.Components
             {
                 radioButtons[7].Visibility = Visibility.Collapsed;
                 radioButtons[8].Visibility = Visibility.Collapsed;
-                if (CurrentPage <= 6)
+                radioButtons[0].Content = 1;
+                radioButtons[6].Content = TotalPages;
+                if (CurrentPage < 7)
                 {
                     lSeparator.Visibility = Visibility.Collapsed;
                     radioButtons[7].Visibility = Visibility.Visible;
                     radioButtons[7].Content = 2;
                     int start = 3;
-                    for (int i = 1; i < 7; i++)
+                    for (int i = 1; i < 6; i++)
                     {
                         radioButtons[i].Content = start;
                         start++;
@@ -99,12 +111,14 @@ namespace AutoCare.Components
                 }
                 else if (CurrentPage > TotalPages - 6)
                 {
-                    rSeparator.Visibility = Visibility.Collapsed; 
+                    rSeparator.Visibility = Visibility.Collapsed;
                     radioButtons[8].Visibility = Visibility.Visible;
-                    radioButtons[8].Content = 2;
-                    for (int i = radioButtons.Length-1; i >= radioButtons.Length - 6; i--)
+                    radioButtons[8].Content = TotalPages - 1;
+                    int start = TotalPages - 2;
+                    for (int i = 5; i >= 1; i--)
                     {
-                        radioButtons[i].Content = TotalPages - (radioButtons.Length - i - 1);
+                        radioButtons[i].Content = start;
+                        start--;
                     }
                 }
                 else
