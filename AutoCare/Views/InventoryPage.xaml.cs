@@ -42,7 +42,7 @@ namespace AutoCare.Views
 
         private async void OnPageLoaded(object sender, RoutedEventArgs e)
         {
-           // CreatePagination(_paginator);
+            // CreatePagination(_paginator);
             await ReloadItemsAsync();
         }
 
@@ -297,6 +297,14 @@ namespace AutoCare.Views
                 //CreatePagination(_paginator);
             }
 
+        }
+
+        private void pagination_PageChanged(object sender, int e)
+        {
+            Debug.WriteLine("pagination_PageChanged: " + e);
+            // _paginator.MoveToPage(e);
+            // await ReloadItemsAsync();
+            //CreatePagination(_paginator);
         }
     }
 }

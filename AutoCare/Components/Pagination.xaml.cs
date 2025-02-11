@@ -50,7 +50,7 @@ namespace AutoCare.Components
         public static readonly DependencyProperty TotalPagesProperty =
             DependencyProperty.Register("TotalPages", typeof(int), typeof(Pagination), new PropertyMetadata(1));
 
-
+        public event EventHandler<int>? PageChanged;
         private RadioButton[] radioButtons;
 
         public Pagination()
@@ -80,6 +80,7 @@ namespace AutoCare.Components
 
         private void UpdateButtons()
         {
+            PageChanged?.Invoke(this, CurrentPage);
             if (TotalPages <= 9)
             {
                 lSeparator.Visibility = Visibility.Collapsed;

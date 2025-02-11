@@ -102,6 +102,7 @@
             x:Name="pagination"
             Grid.Row="2"
             CurrentPage="1"
+            PageChanged="pagination_PageChanged"
             TotalPages="33" />
 
 
