@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AutoCare.Services
+﻿namespace AutoCare.Services
 {
     public class Paginator<T>
     {
@@ -13,8 +6,7 @@ namespace AutoCare.Services
         private int _pageSize;
         private int _currentPage;
         public int TotalItems => _items.Count;
-        public int TotalPages => (int)Math.Ceiling((double)TotalItems / _pageSize);// (_items.Count + _pageSize - 1) / _pageSize;
-
+        public int TotalPages => (int)Math.Ceiling((double)TotalItems / _pageSize);
 
         public Paginator(List<T> items, int pageSize)
         {
@@ -29,12 +21,10 @@ namespace AutoCare.Services
             return _items.Skip(pageIndex * _pageSize).Take(_pageSize).ToList();
         }
 
-        public List<T> MoveToPage(int pageNumber)
+        public void UpdateItems(List<T> items)
         {
-            if (pageNumber < 1 || pageNumber > TotalPages)
-                throw new IndexOutOfRangeException("Invalid page number");
-            _currentPage = pageNumber;
-            return GetCurrentPage();
+            _currentPage = 1;
+            _items = items;
         }
 
         public int PageNumber()
@@ -57,6 +47,14 @@ namespace AutoCare.Services
             {
                 _currentPage--;
             }
+            return GetCurrentPage();
+        }
+
+        public List<T> MoveToPage(int pageNumber)
+        {
+            if (pageNumber < 1 || pageNumber > TotalPages)
+                throw new IndexOutOfRangeException("Invalid page number");
+            _currentPage = pageNumber;
             return GetCurrentPage();
         }
 

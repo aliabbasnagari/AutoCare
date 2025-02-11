@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Intrinsics.Arm;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AutoCare.Components
 {
@@ -27,7 +16,10 @@ namespace AutoCare.Components
             get { return (int)GetValue(CurrentPageProperty); }
             set
             {
+                if ((int)GetValue(CurrentPageProperty) == value) return;
                 SetValue(CurrentPageProperty, value);
+                PageChanged?.Invoke(this, CurrentPage);
+                UpdateButtons();
             }
         }
 
@@ -57,12 +49,18 @@ namespace AutoCare.Components
 
         private void Button_Next(object sender, RoutedEventArgs e)
         {
-            if (CurrentPage < TotalPages) CurrentPage++;
+            if (CurrentPage < TotalPages)
+            {
+                CurrentPage++;
+            }
         }
 
         private void Button_Previous(object sender, RoutedEventArgs e)
         {
-            if (CurrentPage > 1) CurrentPage--;
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+            }
         }
 
         private void Page_Changed(object sender, RoutedEventArgs e)
@@ -70,19 +68,15 @@ namespace AutoCare.Components
             if (sender is RadioButton radioButton && radioButton.Content is int val)
             {
                 CurrentPage = val;
-                UpdateButtons();
             }
         }
 
         private void UpdateButtons()
         {
-            PageChanged?.Invoke(this, CurrentPage);
             if (TotalPages <= 9)
             {
-                lSeparator.Visibility = Visibility.Collapsed;
-                rSeparator.Visibility = Visibility.Collapsed;
-                radioButtons[7].Visibility = Visibility.Visible;
-                radioButtons[8].Visibility = Visibility.Visible;
+                lSeparator.Visibility = rSeparator.Visibility = Visibility.Collapsed;
+                radioButtons[7].Visibility = radioButtons[8].Visibility = Visibility.Visible;
                 for (int i = 0; i < radioButtons.Length; i++)
                 {
                     radioButtons[i].Content = i + 1;
@@ -90,56 +84,54 @@ namespace AutoCare.Components
             }
             else
             {
-                radioButtons[7].Visibility = Visibility.Collapsed;
-                radioButtons[8].Visibility = Visibility.Collapsed;
+                radioButtons[7].Visibility = radioButtons[8].Visibility = Visibility.Collapsed;
                 radioButtons[0].Content = 1;
                 radioButtons[6].Content = TotalPages;
                 if (CurrentPage < 7)
                 {
                     lSeparator.Visibility = Visibility.Collapsed;
+                    rSeparator.Visibility = Visibility.Visible;
                     radioButtons[7].Visibility = Visibility.Visible;
                     radioButtons[7].Content = 2;
-                    int start = 3;
-                    for (int i = 1; i < 6; i++)
+                    for (int i = 1, start = 3; i < 6; i++, start++)
                     {
                         radioButtons[i].Content = start;
-                        start++;
                     }
                 }
                 else if (CurrentPage > TotalPages - 6)
                 {
+                    lSeparator.Visibility = Visibility.Visible;
                     rSeparator.Visibility = Visibility.Collapsed;
                     radioButtons[8].Visibility = Visibility.Visible;
                     radioButtons[8].Content = TotalPages - 1;
-                    int start = TotalPages - 2;
-                    for (int i = 5; i >= 1; i--)
+                    for (int i = 5, start = TotalPages - 2; i >= 1; i--, start--)
                     {
                         radioButtons[i].Content = start;
-                        start--;
                     }
                 }
                 else
                 {
-                    lSeparator.Visibility = Visibility.Visible;
-                    rSeparator.Visibility = Visibility.Visible;
-                    radioButtons[7].Visibility = Visibility.Collapsed;
-                    radioButtons[8].Visibility = Visibility.Collapsed;
+                    lSeparator.Visibility = rSeparator.Visibility = Visibility.Visible;
+                    radioButtons[7].Visibility = radioButtons[8].Visibility = Visibility.Collapsed;
 
                     radioButtons[1].Content = CurrentPage - 2;
                     radioButtons[2].Content = CurrentPage - 1;
                     radioButtons[3].Content = CurrentPage;
                     radioButtons[4].Content = CurrentPage + 1;
                     radioButtons[5].Content = CurrentPage + 2;
-
                 }
             }
+            SetCheckedButton();
+        }
 
+        private void SetCheckedButton()
+        {
             foreach (var btn in radioButtons)
             {
-                if (int.TryParse(btn.Content.ToString(), out int page) && page == CurrentPage)
+                if (int.TryParse(btn.Content?.ToString(), out int page) && page == CurrentPage)
                 {
                     btn.IsChecked = true;
-                    return;
+                    break;
                 }
             }
         }

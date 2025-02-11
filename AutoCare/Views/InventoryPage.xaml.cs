@@ -1,22 +1,18 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using AutoCare.Data;
 using AutoCare.Models;
 using AutoCare.Services;
-using Lucene.Net.Index;
 
 namespace AutoCare.Views
 {
     public class DataPreloader
     {
         private static readonly Lazy<List<Item>> _dataCache = new Lazy<List<Item>>(LoadData);
-
         public static List<Item> Data => _dataCache.Value;
-
         private static List<Item> LoadData()
         {
             Debug.WriteLine("CALLED");
@@ -42,8 +38,7 @@ namespace AutoCare.Views
 
         private async void OnPageLoaded(object sender, RoutedEventArgs e)
         {
-            // CreatePagination(_paginator);
-            //await ReloadItemsAsync();
+            await ReloadItemsAsync();
         }
 
         private void OnPageUnloaded(object sender, RoutedEventArgs e)
@@ -53,6 +48,7 @@ namespace AutoCare.Views
 
         private async Task ReloadItemsAsync()
         {
+            _cancellationTokenSource?.Cancel();
             pagination.TotalPages = _paginator.TotalPages;
             //pagination.CurrentPage = _paginator.PageNumber();
             FilteredItems.Clear();
@@ -92,60 +88,6 @@ namespace AutoCare.Views
             }
         }
 
-        //private void CreatePagination(Paginator<Item> paginator)
-        //{
-        //    dynamicPagination.Children.Clear();
-        //    if (paginator.TotalPages - paginator.PageNumber() < 7)
-        //    {
-        //        for (int i = paginator.PageNumber(); i < paginator.TotalPages; i++)
-        //        {
-        //            Button btn = new Button
-        //            {
-        //                Content = $"{i}",
-        //                Tag = i,
-        //                Margin = new Thickness(5)
-        //            }; 
-        //            btn.Click += (s, e) => Page_Navigation(s, e);
-        //            dynamicPagination.Children.Add(btn);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        for (int i = _paginator.PageNumber(); i < _paginator.PageNumber() + 3; i++)
-        //        {
-        //            Button btn = new Button
-        //            {
-        //                Content = $"{i + 1}",
-        //                Tag = i,
-        //                Margin = new Thickness(5),
-        //            };
-        //            btn.Click += (s, e) => Page_Navigation(s, e);
-        //            dynamicPagination.Children.Add(btn);
-        //        }
-
-        //        dynamicPagination.Children.Add(new TextBlock
-        //        {
-        //            Text = "..."
-        //        });
-
-
-        //        for (int i = _paginator.TotalPages - 3; i < _paginator.TotalPages; i++)
-        //        {
-        //            Button btn = new Button
-        //            {
-        //                Content = $"{i}",
-        //                Tag = i,
-        //                Margin = new Thickness(5)
-        //            };
-        //            btn.Click += (s, e) => Page_Navigation(s, e);
-        //            dynamicPagination.Children.Add(btn);
-        //        }
-        //    }
-
-
-
-        //}
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DoubleAnimation columnWidthAnimation = new DoubleAnimation
@@ -168,83 +110,39 @@ namespace AutoCare.Views
                 if (String.IsNullOrEmpty(searchQuery))
                 {
                     // LoadFiltered(Items);
-                    _paginator = new Paginator<Item>(Items, 10);
+                    _paginator.UpdateItems(Items);
                     await ReloadItemsAsync();
                     return;
                 }
 
                 await SearchItemsAsync(searchQuery);
                 return;
-
-
-                FilteredItems.Clear();
-                //var search = Items.Where(i => SearchMatch(searchText, i) > 0);
-                var search = Items.Select(i => new { Item = i, Weight = SearchMatch(searchQuery, i) })
-                    .Where(x => x.Weight > 0)
-                    .OrderByDescending(x => x.Weight)
-                    .Select(x => x.Item);
-
-                foreach (var item in search)
-                {
-                    FilteredItems.Add(item);
-                }
             }
             else
             {
-                // LoadFiltered(Items);
-                _paginator = new Paginator<Item>(Items, 10);
+                _paginator.UpdateItems(Items);
                 await ReloadItemsAsync();
                 return;
             }
         }
 
-        //private async Task SearchItems(string searchTerm)
-        //{
-        //    // LoadFiltered(ItemSearcher.SearchItems(Items.ToList(), searchTerm));
-        //    await LoadItemsAsync(ItemSearcher.SearchItems(Items.ToList(), searchTerm));
-        //}
-
         private async Task SearchItemsAsync(string searchTerm)
         {
             pbLoading.Visibility = Visibility.Visible;
-
-            await Task.Delay(1000);
-            // Run the search operation in a background task
             var filteredItems = await Task.Run(() => ItemSearcher.SearchItems(Items.ToList(), searchTerm));
-            _paginator = new Paginator<Item>(filteredItems, 10);
-            // Update the UI on the main thread once the search is complete
-            // LoadFiltered(filteredItems);
+            _paginator.UpdateItems(filteredItems);
             await ReloadItemsAsync();
-
             pbLoading.Visibility = Visibility.Collapsed;
         }
 
 
-        //private void LoadFiltered(IEnumerable<Item> items)
-        //{
-        //    FilteredItems.Clear();
-        //    foreach (var item in items)
-        //    {
-        //        FilteredItems.Add(item);
-        //    }
-        //}
-
-        private double SearchMatch(string search, Item item)
+        private void LoadFiltered(IEnumerable<Item> items)
         {
-            double matchWeight = 0;
-            string str2 = item.ConcatString().ToLower();
-            for (int length = 1; length <= search.Length; length++)
+            FilteredItems.Clear();
+            foreach (var item in items)
             {
-                for (int start = 0; start <= search.Length - length; start++)
-                {
-                    string substring = search.Substring(start, length).ToLower();
-                    if (str2.Contains(substring))
-                    {
-                        matchWeight += substring.Length;
-                    }
-                }
+                FilteredItems.Add(item);
             }
-            return matchWeight;
         }
 
         private void aus_AddUserClick(object sender, RoutedEventArgs e)
@@ -262,8 +160,7 @@ namespace AutoCare.Views
             var searchTerm = tbSearch.Text.Trim().ToLower();
             if (String.IsNullOrEmpty(searchTerm))
             {
-                // LoadFiltered(Items);
-                _paginator = new Paginator<Item>(Items, 10);
+                _paginator.UpdateItems(Items);
                 await ReloadItemsAsync();
                 return;
             }
@@ -275,8 +172,7 @@ namespace AutoCare.Views
         {
             Debug.WriteLine("pagination_PageChanged: " + e);
             _paginator.MoveToPage(e);
-             await ReloadItemsAsync();
-            //CreatePagination(_paginator);
+            await ReloadItemsAsync();
         }
     }
 }
