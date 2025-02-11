@@ -80,7 +80,8 @@
         <RadioButton
             x:Name="btn1"
             Checked="Page_Changed"
-            Content="1" />
+            Content="1"
+            IsChecked="True" />
         <TextBlock
             x:Name="lSeparator"
             Width="40"

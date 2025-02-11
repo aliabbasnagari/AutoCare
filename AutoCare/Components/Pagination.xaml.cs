@@ -22,23 +22,18 @@ namespace AutoCare.Components
     /// </summary>
     public partial class Pagination : UserControl
     {
-
-
         public int CurrentPage
         {
             get { return (int)GetValue(CurrentPageProperty); }
             set
             {
                 SetValue(CurrentPageProperty, value);
-                UpdateButtons();
             }
         }
 
         // Using a DependencyProperty as the backing store for CurrentPage.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurrentPageProperty =
             DependencyProperty.Register("CurrentPage", typeof(int), typeof(Pagination), new PropertyMetadata(1));
-
-
 
         public int TotalPages
         {
@@ -75,6 +70,7 @@ namespace AutoCare.Components
             if (sender is RadioButton radioButton && radioButton.Content is int val)
             {
                 CurrentPage = val;
+                UpdateButtons();
             }
         }
 
@@ -84,7 +80,7 @@ namespace AutoCare.Components
             if (TotalPages <= 9)
             {
                 lSeparator.Visibility = Visibility.Collapsed;
-                rSeparator.Visibility = Visibility.Collapsed; 
+                rSeparator.Visibility = Visibility.Collapsed;
                 radioButtons[7].Visibility = Visibility.Visible;
                 radioButtons[8].Visibility = Visibility.Visible;
                 for (int i = 0; i < radioButtons.Length; i++)

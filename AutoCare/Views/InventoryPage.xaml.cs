@@ -29,7 +29,7 @@ namespace AutoCare.Views
     public partial class InventoryPage : Page
     {
         private List<Item> Items => DataPreloader.Data;
-        private Paginator<Item> _paginator = new Paginator<Item>(DataPreloader.Data, 10);
+        private Paginator<Item> _paginator = new(DataPreloader.Data, 10);
         private CancellationTokenSource? _cancellationTokenSource;
         public ObservableCollection<Item> FilteredItems { get; } = new();
         public InventoryPage()
@@ -43,7 +43,7 @@ namespace AutoCare.Views
         private async void OnPageLoaded(object sender, RoutedEventArgs e)
         {
             // CreatePagination(_paginator);
-            await ReloadItemsAsync();
+            //await ReloadItemsAsync();
         }
 
         private void OnPageUnloaded(object sender, RoutedEventArgs e)
@@ -54,11 +54,11 @@ namespace AutoCare.Views
         private async Task ReloadItemsAsync()
         {
             pagination.TotalPages = _paginator.TotalPages;
-            pagination.CurrentPage = _paginator.PageNumber() + 1;
+            //pagination.CurrentPage = _paginator.PageNumber();
             FilteredItems.Clear();
             try
             {
-                var items = _paginator.CurrentPage();
+                var items = _paginator.GetCurrentPage();
                 _cancellationTokenSource = new CancellationTokenSource();
                 pbLoading.Visibility = Visibility.Visible;
                 pbLoading.Value = 0;
@@ -271,39 +271,11 @@ namespace AutoCare.Views
             await SearchItemsAsync(searchTerm);
         }
 
-        private async void Page_Navigation(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button btn)
-            {
-
-                if (int.TryParse(btn.Tag?.ToString(), out int tag))
-                {
-                    _paginator.MoveToPage(tag);
-                    await ReloadItemsAsync();
-                }
-
-
-                switch (btn.Tag)
-                {
-                    case "Next":
-                        _paginator.NextPage();
-                        await ReloadItemsAsync();
-                        break;
-                    case "Previous":
-                        _paginator.PreviousPage();
-                        await ReloadItemsAsync();
-                        break;
-                }
-                //CreatePagination(_paginator);
-            }
-
-        }
-
-        private void pagination_PageChanged(object sender, int e)
+        private async void pagination_PageChanged(object sender, int e)
         {
             Debug.WriteLine("pagination_PageChanged: " + e);
-            // _paginator.MoveToPage(e);
-            // await ReloadItemsAsync();
+            _paginator.MoveToPage(e);
+             await ReloadItemsAsync();
             //CreatePagination(_paginator);
         }
     }
