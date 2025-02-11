@@ -25,7 +25,7 @@ namespace AutoCare.Views
     public partial class InventoryPage : Page
     {
         private List<Item> Items => DataPreloader.Data;
-        private Paginator<Item> _paginator = new(DataPreloader.Data, 10);
+        private Paginator<Item> _paginator = new(DataPreloader.Data, 15);
         private CancellationTokenSource? _cancellationTokenSource;
         public ObservableCollection<Item> FilteredItems { get; } = new();
         public InventoryPage()

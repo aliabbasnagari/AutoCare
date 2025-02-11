@@ -19,12 +19,9 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border
-                            Padding="10,5"
-                            Background="{TemplateBinding Background}"
-                            CornerRadius="5">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="20">
                             <ContentPresenter
-                                Margin="0,0,0,1"
+                                Margin="0,0,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center" />
                         </Border>
@@ -56,7 +53,7 @@
                             Background="{TemplateBinding Background}"
                             CornerRadius="5">
                             <ContentPresenter
-                                Margin="0,0,0,1"
+                                Margin="0,0,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center" />
                         </Border>
@@ -72,7 +69,10 @@
         </Style>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
-        <Button Click="Button_Previous" Content="&lt;" />
+        <Button
+            Click="Button_Previous"
+            Content=""
+            FontFamily="{StaticResource FontAwesomeFilled}" />
         <Rectangle
             Width="1"
             Margin="3,7"
@@ -136,6 +136,9 @@
             Width="1"
             Margin="3,7"
             Fill="#dee4ec" />
-        <Button Click="Button_Next" Content="&gt;" />
+        <Button
+            Click="Button_Next"
+            Content=""
+            FontFamily="{StaticResource FontAwesomeFilled}" />
     </StackPanel>
 </UserControl>

@@ -13,15 +13,17 @@ namespace AutoCare.Components
     {
         public int CurrentPage
         {
-            get { return (int)GetValue(CurrentPageProperty); }
+            get => (int)GetValue(CurrentPageProperty);
             set
             {
-                if ((int)GetValue(CurrentPageProperty) == value) return;
+                int currentValue = (int)GetValue(CurrentPageProperty);
+                if (currentValue == value) return;
                 SetValue(CurrentPageProperty, value);
-                PageChanged?.Invoke(this, CurrentPage);
+                PageChanged?.Invoke(this, value);
                 UpdateButtons();
             }
         }
+
 
         // Using a DependencyProperty as the backing store for CurrentPage.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurrentPageProperty =
