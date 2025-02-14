@@ -1,4 +1,6 @@
-﻿namespace AutoCare.Services
+﻿using System.Collections.ObjectModel;
+
+namespace AutoCare.Services
 {
     public class Paginator<T>
     {
@@ -15,11 +17,18 @@
             _currentPage = 1;
         }
 
-        public List<T> GetCurrentPage()
+        //public List<T> GetCurrentPage()
+        //{
+        //    int pageIndex = _currentPage - 1;
+        //    return _items.Skip(pageIndex * _pageSize).Take(_pageSize).ToList();
+        //}
+
+        public async Task<List<T>> GetCurrentPageAsync()
         {
             int pageIndex = _currentPage - 1;
-            return _items.Skip(pageIndex * _pageSize).Take(_pageSize).ToList();
+            return await Task.Run(() => _items.Skip(pageIndex * _pageSize).Take(_pageSize).ToList());
         }
+
 
         public void UpdateItems(List<T> items)
         {
@@ -32,39 +41,62 @@
             return _currentPage;
         }
 
-        public List<T> NextPage()
+        //public List<T> NextPage()
+        //{
+        //    if (_currentPage < TotalPages)
+        //    {
+        //        _currentPage++;
+        //    }
+        //    return GetCurrentPage();
+        //}
+
+        public void NextPage()
         {
             if (_currentPage < TotalPages)
             {
                 _currentPage++;
             }
-            return GetCurrentPage();
         }
 
-        public List<T> PreviousPage()
+        //public List<T> PreviousPage()
+        //{
+        //    if (_currentPage > 1)
+        //    {
+        //        _currentPage--;
+        //    }
+        //    return GetCurrentPage();
+        //}
+
+        public void PreviousPage()
         {
             if (_currentPage > 1)
             {
                 _currentPage--;
             }
-            return GetCurrentPage();
         }
 
-        public List<T> MoveToPage(int pageNumber)
+        //public List<T> MoveToPage(int pageNumber)
+        //{
+        //    if (pageNumber < 1 || pageNumber > TotalPages)
+        //        throw new IndexOutOfRangeException("Invalid page number");
+        //    _currentPage = pageNumber;
+        //    return GetCurrentPage();
+        //}
+
+        public void MoveToPage(int pageNumber)
         {
             if (pageNumber < 1 || pageNumber > TotalPages)
                 throw new IndexOutOfRangeException("Invalid page number");
             _currentPage = pageNumber;
-            return GetCurrentPage();
         }
 
-        public List<T> MovePages(int step)
-        {
-            if (_currentPage + step <= TotalPages && _currentPage + step >= 1)
-            {
-                _currentPage += step;
-            }
-            return GetCurrentPage();
-        }
+        //public List<T> MovePages(int step)
+        //{
+        //    if (_currentPage + step <= TotalPages && _currentPage + step >= 1)
+        //    {
+        //        _currentPage += step;
+        //    }
+        //    return GetCurrentPage();
+        //}
     }
 }

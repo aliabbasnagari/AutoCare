@@ -96,8 +96,6 @@
                 Content="Search" />
         </Grid>
 
-
-
         <comp:Pagination
             x:Name="pagination"
             Grid.Row="2"
@@ -125,7 +123,7 @@
                     <DataGrid
                         CanUserAddRows="False"
                         IsReadOnly="True"
-                        ItemsSource="{Binding FilteredItems, Mode=OneWay}">
+                        ItemsSource="{Binding CurrentPageItems, Mode=OneWay}">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="50"
@@ -179,7 +177,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Custom">
-                    <ListView HorizontalContentAlignment="Stretch" ItemsSource="{Binding FilteredItems, Mode=OneWay}">
+                    <ListView HorizontalContentAlignment="Stretch" ItemsSource="{Binding CurrentPageItems, Mode=OneWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border
@@ -259,7 +257,8 @@
                 Height="20"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Visibility="Collapsed" />
+                IsIndeterminate="True"
+                />
         </Grid>
     </Grid>
 </Page>

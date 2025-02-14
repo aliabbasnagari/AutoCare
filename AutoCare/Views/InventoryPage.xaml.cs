@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using AutoCare.Data;
 using AutoCare.Models;
+using AutoCare.MVVM;
 using AutoCare.Services;
 
 namespace AutoCare.Views
@@ -27,7 +28,21 @@ namespace AutoCare.Views
         private List<Item> Items => DataPreloader.Data;
         private Paginator<Item> _paginator = new(DataPreloader.Data, 15);
         private CancellationTokenSource? _cancellationTokenSource;
-        public ObservableCollection<Item> FilteredItems { get; } = new();
+        // public ObservableCollection<Item> FilteredItems { get; } = new();
+        public ObservableCollection<Item> CurrentPageItems
+        {
+            get { return (ObservableCollection<Item>)GetValue(CurrentPageItemsProperty); }
+            set { SetValue(CurrentPageItemsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurrentPageItems.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentPageItemsProperty = DependencyProperty.Register("CurrentPageItems",
+            typeof(ObservableCollection<Item>),
+            typeof(InventoryPage),
+            new PropertyMetadata(new ObservableCollection<Item>()));
+
+
+
         public InventoryPage()
         {
             InitializeComponent();
@@ -46,31 +61,79 @@ namespace AutoCare.Views
             _cancellationTokenSource?.Cancel();
         }
 
+        //private async Task ReloadItemsAsync()
+        //{
+        //    //_cancellationTokenSource?.Cancel();
+        //    pagination.TotalPages = _paginator.TotalPages;
+        //    pagination.CurrentPage = _paginator.PageNumber();
+        //    // FilteredItems.Clear();
+        //    CurrentPageItems.Clear();
+        //    try
+        //    {
+        //        //var items = await _paginator.GetCurrentPageAsync();
+        //        var items = await Task.Run(() => _paginator.GetCurrentPageAsync());
+        //        _cancellationTokenSource = new CancellationTokenSource();
+        //        pbLoading.Visibility = Visibility.Visible;
+        //        // pbLoading.Value = 0;
+        //        //  IProgress<double> progress = new Progress<double>(value => pbLoading.Value = value);
+
+        //        //var i = 0;
+        //        //var progressStep = items.Count / 100f;
+        //        foreach (var item in items)
+        //        {
+        //            //i++;
+        //            _cancellationTokenSource.Token.ThrowIfCancellationRequested();
+        //            CurrentPageItems.Add(item);
+        //            //progress.Report(i / progressStep);
+        //            //await Task.Yield();
+        //        }
+        //        // CurrentPageItems = new ObservableCollection<Item>(items);
+        //        //  progress.Report(100);
+        //    }
+        //    catch (OperationCanceledException)
+        //    {
+        //        MessageBox.Show("Item loading was cancelled.", "Cancelled",
+        //            MessageBoxButton.OK, MessageBoxImage.Information);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Error loading items: {ex.Message}", "Error",
+        //            MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //    finally
+        //    {
+        //        pbLoading.Visibility = Visibility.Collapsed;
+        //    }
+        //}
+
         private async Task ReloadItemsAsync()
         {
-            _cancellationTokenSource?.Cancel();
             pagination.TotalPages = _paginator.TotalPages;
-            //pagination.CurrentPage = _paginator.PageNumber();
-            FilteredItems.Clear();
+            pagination.CurrentPage = _paginator.PageNumber();
+            CurrentPageItems.Clear();
             try
             {
-                var items = _paginator.GetCurrentPage();
+                // Assuming GetCurrentPageAsync() is already an async method.
                 _cancellationTokenSource = new CancellationTokenSource();
                 pbLoading.Visibility = Visibility.Visible;
-                pbLoading.Value = 0;
-                IProgress<double> progress = new Progress<double>(value => pbLoading.Value = value);
 
-                var i = 0;
-                var progressStep = items.Count / 100f;
-                foreach (var item in items)
+                var items = await _paginator.GetCurrentPageAsync();
+
+                // Break the operation into smaller chunks to avoid blocking the UI thread.
+                const int batchSize = 20; // You can adjust this number based on your needs.
+                for (int i = 0; i < items.Count; i++)
                 {
-                    i++;
                     _cancellationTokenSource.Token.ThrowIfCancellationRequested();
-                    FilteredItems.Add(item);
-                    progress.Report(i / progressStep);
-                    await Task.Yield();
+
+                    // Add item to the collection in batches.
+                    CurrentPageItems.Add(items[i]);
+
+                    // If a batch is complete, yield control to the UI thread.
+                    if ((i + 1) % batchSize == 0)
+                    {
+                        await Task.Yield(); // This ensures the UI thread gets a chance to update.
+                    }
                 }
-                progress.Report(100);
             }
             catch (OperationCanceledException)
             {
@@ -87,6 +150,7 @@ namespace AutoCare.Views
                 pbLoading.Visibility = Visibility.Collapsed;
             }
         }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -136,22 +200,22 @@ namespace AutoCare.Views
         }
 
 
-        private void LoadFiltered(IEnumerable<Item> items)
-        {
-            FilteredItems.Clear();
-            foreach (var item in items)
-            {
-                FilteredItems.Add(item);
-            }
-        }
+        //private void LoadFiltered(IEnumerable<Item> items)
+        //{
+        //    FilteredItems.Clear();
+        //    foreach (var item in items)
+        //    {
+        //        FilteredItems.Add(item);
+        //    }
+        //}
 
         private void aus_AddUserClick(object sender, RoutedEventArgs e)
         {
             Items.Add(aus.GetItem());
-            FilteredItems.Clear();
+            //FilteredItems.Clear();
             foreach (var item in Items)
             {
-                FilteredItems.Add(item);
+                // FilteredItems.Add(item);
             }
         }
 
