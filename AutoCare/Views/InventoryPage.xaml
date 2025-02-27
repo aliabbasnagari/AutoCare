@@ -121,6 +121,7 @@
             <TabControl Grid.Column="0">
                 <TabItem Header="Classic">
                     <DataGrid
+                        x:Name="dgItems"
                         CanUserAddRows="False"
                         IsReadOnly="True"
                         ItemsSource="{Binding CurrentPageItems, Mode=OneWay}">
@@ -257,8 +258,7 @@
                 Height="20"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsIndeterminate="True"
-                />
+                IsIndeterminate="True" />
         </Grid>
     </Grid>
 </Page>

@@ -5,12 +5,11 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using AutoCare.Data;
 using AutoCare.Models;
-using AutoCare.MVVM;
 using AutoCare.Services;
 
 namespace AutoCare.Views
 {
-    public class DataPreloader
+    public partial class DataPreloader
     {
         private static readonly Lazy<List<Item>> _dataCache = new Lazy<List<Item>>(LoadData);
         public static List<Item> Data => _dataCache.Value;
@@ -51,9 +50,9 @@ namespace AutoCare.Views
             Unloaded += OnPageUnloaded;
         }
 
-        private async void OnPageLoaded(object sender, RoutedEventArgs e)
+        private void OnPageLoaded(object sender, RoutedEventArgs e)
         {
-            await ReloadItemsAsync();
+            _ = ReloadItemsAsync();
         }
 
         private void OnPageUnloaded(object sender, RoutedEventArgs e)
@@ -61,78 +60,21 @@ namespace AutoCare.Views
             _cancellationTokenSource?.Cancel();
         }
 
-        //private async Task ReloadItemsAsync()
-        //{
-        //    //_cancellationTokenSource?.Cancel();
-        //    pagination.TotalPages = _paginator.TotalPages;
-        //    pagination.CurrentPage = _paginator.PageNumber();
-        //    // FilteredItems.Clear();
-        //    CurrentPageItems.Clear();
-        //    try
-        //    {
-        //        //var items = await _paginator.GetCurrentPageAsync();
-        //        var items = await Task.Run(() => _paginator.GetCurrentPageAsync());
-        //        _cancellationTokenSource = new CancellationTokenSource();
-        //        pbLoading.Visibility = Visibility.Visible;
-        //        // pbLoading.Value = 0;
-        //        //  IProgress<double> progress = new Progress<double>(value => pbLoading.Value = value);
-
-        //        //var i = 0;
-        //        //var progressStep = items.Count / 100f;
-        //        foreach (var item in items)
-        //        {
-        //            //i++;
-        //            _cancellationTokenSource.Token.ThrowIfCancellationRequested();
-        //            CurrentPageItems.Add(item);
-        //            //progress.Report(i / progressStep);
-        //            //await Task.Yield();
-        //        }
-        //        // CurrentPageItems = new ObservableCollection<Item>(items);
-        //        //  progress.Report(100);
-        //    }
-        //    catch (OperationCanceledException)
-        //    {
-        //        MessageBox.Show("Item loading was cancelled.", "Cancelled",
-        //            MessageBoxButton.OK, MessageBoxImage.Information);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error loading items: {ex.Message}", "Error",
-        //            MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //    finally
-        //    {
-        //        pbLoading.Visibility = Visibility.Collapsed;
-        //    }
-        //}
-
         private async Task ReloadItemsAsync()
         {
+            _cancellationTokenSource?.Cancel();
             pagination.TotalPages = _paginator.TotalPages;
             pagination.CurrentPage = _paginator.PageNumber();
             CurrentPageItems.Clear();
             try
             {
-                // Assuming GetCurrentPageAsync() is already an async method.
+                var items = await _paginator.GetCurrentPageAsync();
                 _cancellationTokenSource = new CancellationTokenSource();
                 pbLoading.Visibility = Visibility.Visible;
-
-                var items = await _paginator.GetCurrentPageAsync();
-
-                // Break the operation into smaller chunks to avoid blocking the UI thread.
-                const int batchSize = 20; // You can adjust this number based on your needs.
-                for (int i = 0; i < items.Count; i++)
+                foreach (var item in items)
                 {
                     _cancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                    // Add item to the collection in batches.
-                    CurrentPageItems.Add(items[i]);
-
-                    // If a batch is complete, yield control to the UI thread.
-                    if ((i + 1) % batchSize == 0)
-                    {
-                        await Task.Yield(); // This ensures the UI thread gets a chance to update.
-                    }
+                    CurrentPageItems.Add(item);
                 }
             }
             catch (OperationCanceledException)
@@ -151,7 +93,6 @@ namespace AutoCare.Views
             }
         }
 
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DoubleAnimation columnWidthAnimation = new DoubleAnimation
@@ -161,8 +102,6 @@ namespace AutoCare.Views
                 Duration = new Duration(System.TimeSpan.FromSeconds(0.5)),
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut },
             };
-
-            // Apply the animation to the Width property of the Border (SlidingPanel)
             SlidingPanel.BeginAnimation(Border.WidthProperty, columnWidthAnimation);
         }
 
@@ -173,7 +112,6 @@ namespace AutoCare.Views
                 var searchQuery = textbox.Text.ToLower();
                 if (String.IsNullOrEmpty(searchQuery))
                 {
-                    // LoadFiltered(Items);
                     _paginator.UpdateItems(Items);
                     await ReloadItemsAsync();
                     return;
@@ -198,16 +136,6 @@ namespace AutoCare.Views
             await ReloadItemsAsync();
             pbLoading.Visibility = Visibility.Collapsed;
         }
-
-
-        //private void LoadFiltered(IEnumerable<Item> items)
-        //{
-        //    FilteredItems.Clear();
-        //    foreach (var item in items)
-        //    {
-        //        FilteredItems.Add(item);
-        //    }
-        //}
 
         private void aus_AddUserClick(object sender, RoutedEventArgs e)
         {

@@ -29,6 +29,18 @@ namespace AutoCare.Services
             return await Task.Run(() => _items.Skip(pageIndex * _pageSize).Take(_pageSize).ToList());
         }
 
+        public List<T> GetCurrentPage()
+        {
+            int pageIndex = _currentPage - 1;
+            return _items.Skip(pageIndex * _pageSize).Take(_pageSize).ToList();
+        }
+
+        public ObservableCollection<T> GetCurrentPagee()
+        {
+            int pageIndex = _currentPage - 1;
+            return new ObservableCollection<T>(_items.Skip(pageIndex * _pageSize).Take(_pageSize));
+        }
+
 
         public void UpdateItems(List<T> items)
         {

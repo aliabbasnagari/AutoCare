@@ -10,6 +10,10 @@
     d:DesignWidth="200"
     mc:Ignorable="d">
 
+    <RadioButton.Resources>
+        <BooleanToVisibilityConverter x:Key="b2v" />
+    </RadioButton.Resources>
+
     <RadioButton.Template>
         <ControlTemplate TargetType="RadioButton">
             <Border
@@ -23,7 +27,6 @@
                     </Grid.ColumnDefinitions>
 
                     <Line
-                        x:Name="myLine"
                         Grid.Column="0"
                         Margin="0,0,6,0"
                         VerticalAlignment="Center"
@@ -31,6 +34,7 @@
                         StrokeEndLineCap="Round"
                         StrokeStartLineCap="Round"
                         StrokeThickness="5"
+                        Visibility="{Binding IsChecked, Converter={StaticResource b2v}}"
                         X1="0"
                         X2="0"
                         Y1="0"

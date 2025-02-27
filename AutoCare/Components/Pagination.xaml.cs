@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.Intrinsics.Arm;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace AutoCare.Components
