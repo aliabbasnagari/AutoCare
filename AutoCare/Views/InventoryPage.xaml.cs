@@ -47,12 +47,12 @@ namespace AutoCare.Views
             InitializeComponent();
             DataContext = this;
             Loaded += OnPageLoaded;
-            Unloaded += OnPageUnloaded;
+            //Unloaded += OnPageUnloaded;
         }
 
         private void OnPageLoaded(object sender, RoutedEventArgs e)
         {
-            _ = ReloadItemsAsync();
+            ReloadItems();
         }
 
         private void OnPageUnloaded(object sender, RoutedEventArgs e)
@@ -60,37 +60,41 @@ namespace AutoCare.Views
             _cancellationTokenSource?.Cancel();
         }
 
-        private async Task ReloadItemsAsync()
+        private void ReloadItems()
         {
             _cancellationTokenSource?.Cancel();
             pagination.TotalPages = _paginator.TotalPages;
             pagination.CurrentPage = _paginator.PageNumber();
-            CurrentPageItems.Clear();
-            try
-            {
-                var items = await _paginator.GetCurrentPageAsync();
-                _cancellationTokenSource = new CancellationTokenSource();
-                pbLoading.Visibility = Visibility.Visible;
-                foreach (var item in items)
-                {
-                    _cancellationTokenSource.Token.ThrowIfCancellationRequested();
-                    CurrentPageItems.Add(item);
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                MessageBox.Show("Item loading was cancelled.", "Cancelled",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading items: {ex.Message}", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            finally
-            {
-                pbLoading.Visibility = Visibility.Collapsed;
-            }
+            //CurrentPageItems.Clear();
+
+            var items = _paginator.GetCurrentPage();
+            CurrentPageItems = new ObservableCollection<Item>(items);
+
+            //try
+            //{
+            //    var items = _paginator.GetCurrentPage();
+            //    _cancellationTokenSource = new CancellationTokenSource();
+            //    pbLoading.Visibility = Visibility.Visible;
+            //    foreach (var item in items)
+            //    {
+            //        _cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            //        CurrentPageItems.Add(item);
+            //    }
+            //}
+            //catch (OperationCanceledException)
+            //{
+            //    MessageBox.Show("Item loading was cancelled.", "Cancelled",
+            //        MessageBoxButton.OK, MessageBoxImage.Information);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Error loading items: {ex.Message}", "Error",
+            //        MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+            //finally
+            //{
+            //    pbLoading.Visibility = Visibility.Collapsed;
+            //}
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -113,7 +117,7 @@ namespace AutoCare.Views
                 if (String.IsNullOrEmpty(searchQuery))
                 {
                     _paginator.UpdateItems(Items);
-                    await ReloadItemsAsync();
+                    ReloadItems();
                     return;
                 }
 
@@ -123,7 +127,7 @@ namespace AutoCare.Views
             else
             {
                 _paginator.UpdateItems(Items);
-                await ReloadItemsAsync();
+                ReloadItems();
                 return;
             }
         }
@@ -133,7 +137,7 @@ namespace AutoCare.Views
             pbLoading.Visibility = Visibility.Visible;
             var filteredItems = await Task.Run(() => ItemSearcher.SearchItems(Items.ToList(), searchTerm));
             _paginator.UpdateItems(filteredItems);
-            await ReloadItemsAsync();
+            ReloadItems();
             pbLoading.Visibility = Visibility.Collapsed;
         }
 
@@ -153,18 +157,18 @@ namespace AutoCare.Views
             if (String.IsNullOrEmpty(searchTerm))
             {
                 _paginator.UpdateItems(Items);
-                await ReloadItemsAsync();
+                ReloadItems();
                 return;
             }
 
             await SearchItemsAsync(searchTerm);
         }
 
-        private async void pagination_PageChanged(object sender, int e)
+        private void pagination_PageChanged(object sender, int e)
         {
             Debug.WriteLine("pagination_PageChanged: " + e);
             _paginator.MoveToPage(e);
-            await ReloadItemsAsync();
+            ReloadItems();
         }
     }
 }

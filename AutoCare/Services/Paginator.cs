@@ -17,18 +17,6 @@ namespace AutoCare.Services
             _currentPage = 1;
         }
 
-        //public List<T> GetCurrentPage()
-        //{
-        //    int pageIndex = _currentPage - 1;
-        //    return _items.Skip(pageIndex * _pageSize).Take(_pageSize).ToList();
-        //}
-
-        public async Task<List<T>> GetCurrentPageAsync()
-        {
-            int pageIndex = _currentPage - 1;
-            return await Task.Run(() => _items.Skip(pageIndex * _pageSize).Take(_pageSize).ToList());
-        }
-
         public List<T> GetCurrentPage()
         {
             int pageIndex = _currentPage - 1;

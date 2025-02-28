@@ -177,6 +177,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
+                <!--
                 <TabItem Header="Custom">
                     <ListView HorizontalContentAlignment="Stretch" ItemsSource="{Binding CurrentPageItems, Mode=OneWay}">
                         <ListView.ItemTemplate>
@@ -250,6 +251,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </TabItem>
+                -->
             </TabControl>
 
             <ProgressBar
