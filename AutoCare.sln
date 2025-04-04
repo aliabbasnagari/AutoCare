@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCarePlayground", "AutoC
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AutoCareSetup", "AutoCareSetup\AutoCareSetup.vdproj", "{09EB0DB6-CA95-4D4F-8E83-748039BB815C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustInventory", "JustInventory\JustInventory.csproj", "{A2FE6280-57BB-4E50-B026-52EECA2C8B1B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C31399E0-3A5F-4C64-A99D-6792FE2365F7} = {C31399E0-3A5F-4C64-A99D-6792FE2365F7}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +29,10 @@ Global
 		{9BD58AA7-1BD4-43E2-B5DC-C4D8B49F1375}.Release|Any CPU.Build.0 = Release|Any CPU
 		{09EB0DB6-CA95-4D4F-8E83-748039BB815C}.Debug|Any CPU.ActiveCfg = Debug
 		{09EB0DB6-CA95-4D4F-8E83-748039BB815C}.Release|Any CPU.ActiveCfg = Release
+		{A2FE6280-57BB-4E50-B026-52EECA2C8B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2FE6280-57BB-4E50-B026-52EECA2C8B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2FE6280-57BB-4E50-B026-52EECA2C8B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2FE6280-57BB-4E50-B026-52EECA2C8B1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

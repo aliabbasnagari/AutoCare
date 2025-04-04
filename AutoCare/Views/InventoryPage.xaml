@@ -37,22 +37,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel
-            Grid.Row="0"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal">
-            <Button
-                Margin="5"
-                Padding="3"
-                Click="Button_Click"
-                Content="Add Item" />
-        </StackPanel>
 
-        <Grid Grid.Row="1" Margin="5">
+
+        <Grid Grid.Row="0" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="80" />
@@ -98,17 +88,39 @@
 
         <comp:Pagination
             x:Name="pagination"
-            Grid.Row="2"
+            Grid.Row="1"
             CurrentPage="1"
             PageChanged="pagination_PageChanged"
             TotalPages="33" />
 
 
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
+
+            <Button
+                Width="56"
+                Height="56"
+                Margin="0,0,50,50"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Panel.ZIndex="5"
+                Background="DodgerBlue"
+                Click="Button_Click"
+                Cursor="Hand"
+                FontSize="24"
+                FontWeight="Bold"
+                Foreground="White">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="{StaticResource FontAwesomeFilled}"
+                    FontSize="40"
+                    Text="&#xf067;" />
+            </Button>
 
             <ScrollViewer
                 x:Name="SlidingPanel"
@@ -119,65 +131,7 @@
             </ScrollViewer>
 
             <TabControl Grid.Column="0">
-                <TabItem Header="Classic">
-                    <DataGrid
-                        x:Name="dgItems"
-                        CanUserAddRows="False"
-                        IsReadOnly="True"
-                        ItemsSource="{Binding CurrentPageItems, Mode=OneWay}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn
-                                Width="50"
-                                Binding="{Binding Id}"
-                                Header="ID" />
-                            <DataGridTextColumn
-                                Width="150"
-                                Binding="{Binding Name}"
-                                Header="Name" />
-                            <DataGridTextColumn
-                                Width="100"
-                                Binding="{Binding PurchasePrice}"
-                                Header="Purchase Price" />
-                            <DataGridTextColumn
-                                Width="100"
-                                Binding="{Binding RetailPrice}"
-                                Header="Retail Price" />
-                            <DataGridTextColumn
-                                Width="80"
-                                Binding="{Binding Markup, StringFormat=N2}"
-                                Header="Markup (%)" />
-                            <DataGridTextColumn
-                                Width="100"
-                                Binding="{Binding StockQuantity}"
-                                Header="Stock" />
-                            <DataGridTextColumn
-                                Width="100"
-                                Binding="{Binding SoldQuantity}"
-                                Header="Sold" />
-                            <DataGridTextColumn
-                                Width="150"
-                                Binding="{Binding Location}"
-                                Header="Location" />
-                            <DataGridTextColumn
-                                Width="200"
-                                Binding="{Binding Description}"
-                                Header="Description" />
-                            <DataGridTextColumn
-                                Width="100"
-                                Binding="{Binding Labels}"
-                                Header="Labels" />
-                            <DataGridTextColumn
-                                Width="100"
-                                Binding="{Binding Tags}"
-                                Header="Tags" />
-                            <DataGridTextColumn
-                                Width="100"
-                                Binding="{Binding UpdatedOn, StringFormat=\{0:yyyy-MM-dd\}}"
-                                Header="Updated On" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </TabItem>
-                <!--
+
                 <TabItem Header="Custom">
                     <ListView HorizontalContentAlignment="Stretch" ItemsSource="{Binding CurrentPageItems, Mode=OneWay}">
                         <ListView.ItemTemplate>
@@ -251,7 +205,67 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </TabItem>
-                -->
+
+                <TabItem Header="Classic">
+                    <DataGrid
+                        x:Name="dgItems"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding CurrentPageItems, Mode=OneWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="50"
+                                Binding="{Binding Id}"
+                                Header="ID" />
+                            <DataGridTextColumn
+                                Width="150"
+                                Binding="{Binding Name}"
+                                Header="Name" />
+                            <DataGridTextColumn
+                                Width="100"
+                                Binding="{Binding PurchasePrice}"
+                                Header="Purchase Price" />
+                            <DataGridTextColumn
+                                Width="100"
+                                Binding="{Binding RetailPrice}"
+                                Header="Retail Price" />
+                            <DataGridTextColumn
+                                Width="80"
+                                Binding="{Binding Markup, StringFormat=N2}"
+                                Header="Markup (%)" />
+                            <DataGridTextColumn
+                                Width="100"
+                                Binding="{Binding StockQuantity}"
+                                Header="Stock" />
+                            <DataGridTextColumn
+                                Width="100"
+                                Binding="{Binding SoldQuantity}"
+                                Header="Sold" />
+                            <DataGridTextColumn
+                                Width="150"
+                                Binding="{Binding Location}"
+                                Header="Location" />
+                            <DataGridTextColumn
+                                Width="200"
+                                Binding="{Binding Description}"
+                                Header="Description" />
+                            <DataGridTextColumn
+                                Width="100"
+                                Binding="{Binding Labels}"
+                                Header="Labels" />
+                            <DataGridTextColumn
+                                Width="100"
+                                Binding="{Binding Tags}"
+                                Header="Tags" />
+                            <DataGridTextColumn
+                                Width="100"
+                                Binding="{Binding UpdatedOn, StringFormat=\{0:yyyy-MM-dd\}}"
+                                Header="Updated On" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+
             </TabControl>
 
             <ProgressBar

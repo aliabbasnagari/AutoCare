@@ -16,10 +16,15 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="{Binding Label, ElementName=root}" />
+            <Label
+                Grid.Row="0"
+                Padding="0"
+                Content="{Binding Label, ElementName=root}" />
             <TextBlock
                 Grid.Row="1"
-                Padding="3"
+                Padding="5,0,0,0"
+                FontSize="{Binding LabelSize, ElementName=root}"
+                FontWeight="Bold"
                 Text="{Binding Text, ElementName=root}" />
         </Grid>
     </Border>

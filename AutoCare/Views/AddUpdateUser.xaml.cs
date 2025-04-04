@@ -73,7 +73,7 @@ namespace AutoCare.Views
         // Buying Price TextBox TextChanged handler
         private void BuyingSellingPriceTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            MarkupText.Text = $"{Markup:F3}";
+            MarkupText.Text = $"{Markup:F1}";
         }
     }
 }

@@ -16,10 +16,14 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="{Binding Label, ElementName=root}" />
+            <Label
+                Grid.Row="0"
+                Padding="0"
+                Content="{Binding Label, ElementName=root}" />
             <TextBox
                 Grid.Row="1"
                 Padding="3"
+                FontSize="18"
                 Text="{Binding Text, ElementName=root, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
     </Border>

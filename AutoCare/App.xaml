@@ -8,8 +8,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <FontFamily x:Key="FontAwesome">/Assets/Fonts/fa-regular-400.ttf#Font Awesome 5 Pro Regular</FontFamily>
-                    <FontFamily x:Key="FontAwesomeFilled">/Assets/Fonts/fa-solid-900.ttf#Font Awesome 5 Pro Solid</FontFamily>
+                    <FontFamily x:Key="FontAwesome">/Assets/Fonts/fa-regular-400.ttf#Font Awesome 6 Pro Regular</FontFamily>
+                    <FontFamily x:Key="FontAwesomeFilled">/Assets/Fonts/fa-solid-900.ttf#Font Awesome 6 Pro Solid</FontFamily>
 
                     <Style TargetType="DataGrid">
                         <Setter Property="FontSize" Value="16" />

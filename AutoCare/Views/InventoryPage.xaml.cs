@@ -9,23 +9,13 @@ using AutoCare.Services;
 
 namespace AutoCare.Views
 {
-    public partial class DataPreloader
-    {
-        private static readonly Lazy<List<Item>> _dataCache = new Lazy<List<Item>>(LoadData);
-        public static List<Item> Data => _dataCache.Value;
-        private static List<Item> LoadData()
-        {
-            Debug.WriteLine("CALLED");
-            return TestData.LoadItemsFromCsvResource("POS.csv");
-        }
-    }
     /// <summary>
     /// Interaction logic for InventoryPage.xaml
     /// </summary>
     public partial class InventoryPage : Page
     {
         private List<Item> Items => DataPreloader.Data;
-        private Paginator<Item> _paginator = new(DataPreloader.Data, 15);
+        private Paginator<Item> _paginator = new(DataPreloader.Data, 30);
         private CancellationTokenSource? _cancellationTokenSource;
         // public ObservableCollection<Item> FilteredItems { get; } = new();
         public ObservableCollection<Item> CurrentPageItems
@@ -52,7 +42,9 @@ namespace AutoCare.Views
 
         private void OnPageLoaded(object sender, RoutedEventArgs e)
         {
+            pbLoading.Visibility = Visibility.Visible;
             ReloadItems();
+            pbLoading.Visibility = Visibility.Collapsed;
         }
 
         private void OnPageUnloaded(object sender, RoutedEventArgs e)
@@ -65,36 +57,8 @@ namespace AutoCare.Views
             _cancellationTokenSource?.Cancel();
             pagination.TotalPages = _paginator.TotalPages;
             pagination.CurrentPage = _paginator.PageNumber();
-            //CurrentPageItems.Clear();
-
             var items = _paginator.GetCurrentPage();
             CurrentPageItems = new ObservableCollection<Item>(items);
-
-            //try
-            //{
-            //    var items = _paginator.GetCurrentPage();
-            //    _cancellationTokenSource = new CancellationTokenSource();
-            //    pbLoading.Visibility = Visibility.Visible;
-            //    foreach (var item in items)
-            //    {
-            //        _cancellationTokenSource.Token.ThrowIfCancellationRequested();
-            //        CurrentPageItems.Add(item);
-            //    }
-            //}
-            //catch (OperationCanceledException)
-            //{
-            //    MessageBox.Show("Item loading was cancelled.", "Cancelled",
-            //        MessageBoxButton.OK, MessageBoxImage.Information);
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show($"Error loading items: {ex.Message}", "Error",
-            //        MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
-            //finally
-            //{
-            //    pbLoading.Visibility = Visibility.Collapsed;
-            //}
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -116,8 +80,10 @@ namespace AutoCare.Views
                 var searchQuery = textbox.Text.ToLower();
                 if (String.IsNullOrEmpty(searchQuery))
                 {
+                    pbLoading.Visibility = Visibility.Visible;
                     _paginator.UpdateItems(Items);
                     ReloadItems();
+                    pbLoading.Visibility = Visibility.Collapsed;
                     return;
                 }
 
@@ -126,8 +92,10 @@ namespace AutoCare.Views
             }
             else
             {
+                pbLoading.Visibility = Visibility.Visible;
                 _paginator.UpdateItems(Items);
                 ReloadItems();
+                pbLoading.Visibility = Visibility.Collapsed;
                 return;
             }
         }
@@ -156,8 +124,10 @@ namespace AutoCare.Views
             var searchTerm = tbSearch.Text.Trim().ToLower();
             if (String.IsNullOrEmpty(searchTerm))
             {
+                pbLoading.Visibility = Visibility.Visible;
                 _paginator.UpdateItems(Items);
                 ReloadItems();
+                pbLoading.Visibility = Visibility.Collapsed;
                 return;
             }
 

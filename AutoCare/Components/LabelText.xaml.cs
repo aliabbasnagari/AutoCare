@@ -28,6 +28,24 @@ namespace AutoCare.Components
             DependencyProperty.Register("Text", typeof(string), typeof(LabelText),
                 new FrameworkPropertyMetadata(string.Empty));
 
+
+
+
+
+        public int LabelSize
+        {
+            get { return (int)GetValue(LabelSizeProperty); }
+            set { SetValue(LabelSizeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for LabelSize.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LabelSizeProperty =
+            DependencyProperty.Register("LabelSize", typeof(int), typeof(LabelText), new PropertyMetadata(18));
+
+
+
+
+
         public LabelText()
         {
             InitializeComponent();
